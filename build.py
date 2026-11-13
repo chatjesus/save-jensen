@@ -11,7 +11,7 @@ PUB = os.path.join(HERE, 'server', 'public')
 PHOTOS = os.path.join(SRC, 'photos')
 SITE = 'https://savejensen.ai'
 MODIFIED = '2026-11-13'  # the day the page itself last changed (Beijing time); set by hand, never from the build clock
-CHECKED = {'zh': '2026-11-12 约 21:58（北京时间 UTC+8，人工核查）', 'en': 'Nov 12, 2026, about 21:58 Beijing time (UTC+8), manually checked'}
+CHECKED = {'zh': '2026-11-13；各资料卡单列核对日期', 'en': 'Nov 13, 2026; individual check dates appear on each source card'}
 E = lambda s: html.escape(str(s), quote=True)
 
 PAGE = {
@@ -141,19 +141,20 @@ def render(data, lang):
     cards = []
     for idx, i in enumerate(items):
         opened = i['verificationStatus'] == 'opened'
-        search = ' '.join([i['title'], i['summary'], i.get('summaryEn', ''), i['sourceName']]).lower()
+        search = ' '.join([i['title'], i.get('titleEn', ''), i['summary'], i.get('summaryEn', ''), i['sourceName'], i.get('sourceNameEn', '')]).lower()
+        summary_only = i['verificationStatus'] == 'summary'
         cards.append(
             '<article class="card{first}" data-id="{id}" data-type="{type}" data-t="{t}" data-n="{n}" data-featured="{feat}" data-search="{search}">'
             '<div class="cmeta"><span class="b {st}">{stn}</span><span>{date}</span><span>{cat} · {fmt}{featl}</span></div>'
-            '<div><h3 lang="en">{title}</h3><p>{summary}</p><p class="note">{source} · {chk} {checked} · {ver}</p></div>'
+            '<div><h3{title_lang}>{title}</h3><p>{summary}</p><p class="note">{source} · {chk} {checked} · {ver}</p></div>'
             '<div class="foot"><a class="btn sm" href="{url}" target="_blank" rel="noopener noreferrer">{read} ↗</a>'
             '<button class="btn sm js-fav jsonly" type="button" aria-pressed="false">{save}</button></div></article>'.format(
                 first=' first' if idx == 0 else '', id=E(i['id']), type=E(i['type']), t=i['_t'], n=i['_n'], feat='1' if i['featured'] else '', search=E(search),
                 st=i['sourceType'], stn=L(KIND[i['sourceType']], lang), date=E(i['publishedAt']) if i['publishedAt'] else L(('页面未标注日期', 'no date on page'), lang),
                 cat=E(L(cats[i['type']], lang)), fmt=E(L(data['FMT'][i['format']], lang)), featl=(' · ' + L(('精选', 'Featured'), lang)) if i['featured'] else '',
-                title=E(i['title']), summary=E(pick(i, 'summary', lang)), source=E(pick(i, 'sourceName', lang)), chk=L(('核对', 'checked'), lang), checked=E(i['checkedAt']),
-                ver=L(('已打开原文', 'source opened'), lang) if opened else L(('仅核对归档列表', 'archive listing only'), lang), url=E(i['sourceUrl']),
-                read=(L(('阅读原文', 'Read source'), lang) if opened else L(('官方归档', 'Official archive'), lang)), save=L(('☆ 收藏', '☆ Save'), lang)))
+                title_lang='' if 'titleEn' in i else ' lang="en"', title=E(pick(i, 'title', lang)), summary=E(pick(i, 'summary', lang)), source=E(pick(i, 'sourceName', lang)), chk=L(('核对', 'checked'), lang), checked=E(i['checkedAt']),
+                ver=(L(('已核对公开摘要', 'public summary checked'), lang) if summary_only else L(('已打开原文', 'source opened'), lang) if opened else L(('仅核对归档列表', 'archive listing only'), lang)), url=E(i['sourceUrl']),
+                read=(L(('阅读原文', 'Read source'), lang) if opened or summary_only else L(('官方归档', 'Official archive'), lang)), save=L(('☆ 收藏', '☆ Save'), lang)))
     r['HUB'] = ''.join(cards)
     r['STEPS'] = ''.join('<li class="%s"%s><b>%s</b>%s%s</li>' % ({'done': 'done', 'cur': 'cur', 'todo': ''}[s['state']], ' aria-current="step"' if s['state'] == 'cur' else '',
                                                                 E(s[lang][0]), E(s[lang][1]), L((' · 未开始', ' · not started'), lang) if s['state'] == 'todo' else '') for s in data['STG'])

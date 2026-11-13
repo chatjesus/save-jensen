@@ -1,19 +1,58 @@
 {
  "TL": [
   {
+   "kind": "media",
+   "d": "11.13",
+   "when": "凤凰网科技发布：2026-11-13 13:10（北京时间 UTC+8） · 投票总人数未披露",
+   "whenEn": "Ifeng Tech published: 2026-11-13 13:10 Beijing time (UTC+8) · total voter count not disclosed",
+   "title": "凤凰网科技：员工自发内网投票，超 97% 参与者希望留任",
+   "titleEn": "Ifeng Tech: over 97% of participants in an employee-organized internal poll favor Huang staying",
+   "body": "凤凰网科技采访员工称，一项员工自发发起的内网投票中，超过 97% 的参与者希望黄仁勋留任。报道未披露总投票人数或完整投票方法，不能据此推断全体员工的比例；这也不是公司宣布的正式投票结果。",
+   "bodyEn": "Ifeng Tech reports, citing an employee, that more than 97% of participants in an employee-organized internal poll wanted Huang to stay. The report gives no total number of voters or full polling method. This does not establish a percentage of all NVIDIA employees and is not a company-announced voting result.",
+   "src": [
+    [
+     "凤凰网科技原始报道",
+     "Ifeng Tech original report",
+     "https://original.ifeng.com/c/8y0vtza37Pg"
+    ]
+   ]
+  },
+  {
+   "kind": "media",
+   "d": "11.12",
+   "when": "WIRED 发布页：2026-11-12 20:17（页面未注明时区）",
+   "whenEn": "WIRED page timestamp: 2026-11-12 20:17 (time zone not shown)",
+   "title": "WIRED：呼吁考虑员工意见的内网帖有 1,600 多条评论",
+   "titleEn": "WIRED: internal appeal draws more than 1,600 comments",
+   "body": "WIRED 的公开摘要称，一篇请求董事会考虑员工意见的内网帖子获得了 1,600 多条评论，多数支持黄仁勋回归。评论数量不等于独立参与人数，也不是投票分母。这里核对的是公开摘要；它没有给出 97% 的投票结果。",
+   "bodyEn": "WIRED’s public summary reports more than 1,600 comments on an internal appeal asking the Board to consider employee sentiment, with most supporting Huang’s return. Comments are not a count of unique employees or a poll denominator. We checked the public summary; it does not state a 97% polling result.",
+   "src": [
+    [
+     "WIRED：公开摘要（全文可能需订阅）",
+     "WIRED: public summary (full article may require a subscription)",
+     "https://www.wired.com/story/nvidia-employees-petition-for-jensen-huangs-return/"
+    ]
+   ]
+  },
+  {
    "kind": "official",
    "d": "11.12",
    "when": "发布页日期：2026-11-12（页面未标注时刻与时区）",
    "whenEn": "Page date: 2026-11-12 (no time or time zone shown)",
    "title": "官方：黄仁勋辞去总裁、CEO 与董事职务，即刻生效",
    "titleEn": "Official: Jensen Huang resigns as President, CEO and director, effective immediately",
-   "body": "NVIDIA 董事会宣布，黄仁勋已辞去总裁、首席执行官及董事会成员职务，即刻生效。执行副总裁兼 CFO Colette Kress 出任临时 CEO，并继续担任 CFO，直至永久继任者确定。Harvey C. Jones 被任命为公司首位董事长。董事会将启动永久 CEO 的遴选，内部与外部人选都在考虑之列。公告称第三季度财报仍按原计划于 11 月 17 日发布。公告正文没有提到独立调查的进展或结论，也没有提到黄仁勋此后担任任何职务。",
-   "bodyEn": "NVIDIA’s Board announced that Jensen Huang has resigned as President, Chief Executive Officer, and a member of the Board, effective immediately. Colette Kress, EVP and CFO, becomes Interim CEO and continues as CFO until a permanent successor is named. Harvey C. Jones was appointed the company’s first-ever Chair of the Board. The Board is starting a search for a permanent CEO and will consider internal and external candidates. Third-quarter results will still be reported on November 17 as scheduled. The release does not mention the status or findings of the independent investigation, or any continuing role for Huang.",
+   "body": "NVIDIA 董事会宣布，黄仁勋已辞去总裁、首席执行官及董事会成员职务，即刻生效。执行副总裁兼 CFO Colette Kress 出任临时 CEO，并继续担任 CFO，直至永久继任者确定。Harvey C. Jones 被任命为公司首位董事长。董事会将启动永久 CEO 的遴选，内部与外部人选都在考虑之列。公告称第三季度财报仍按原计划于 11 月 17 日发布。公告正文没有提到独立调查的进展或结论，也没有提到黄仁勋此后担任任何职务。 SEC 的 8-K 文件将董事会接受辞任的日期列为 11 月 11 日；公开新闻稿日期为 11 月 12 日，两者分别是事件日期与公告日期。",
+   "bodyEn": "NVIDIA’s Board announced that Jensen Huang has resigned as President, Chief Executive Officer, and a member of the Board, effective immediately. Colette Kress, EVP and CFO, becomes Interim CEO and continues as CFO until a permanent successor is named. Harvey C. Jones was appointed the company’s first-ever Chair of the Board. The Board is starting a search for a permanent CEO and will consider internal and external candidates. Third-quarter results will still be reported on November 17 as scheduled. The release does not mention the status or findings of the independent investigation, or any continuing role for Huang. The SEC Form 8-K dates the Board’s acceptance of the resignation to November 11; the public press release is dated November 12. These are the event date and announcement date, respectively.",
    "src": [
     [
      "NVIDIA Newsroom",
      "NVIDIA Newsroom",
      "https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition"
+    ],
+    [
+     "SEC：NVIDIA Form 8-K",
+     "SEC: NVIDIA Form 8-K",
+     "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000082/nvda-20261111.htm"
     ]
    ]
   },
@@ -77,6 +116,23 @@
     ]
    ],
    "d": "11.11"
+  },
+  {
+   "kind": "media",
+   "d": "11.11",
+   "when": "Investing.com 报道：2026-11-11；调查进行于 11 月 9–10 日",
+   "whenEn": "Investing.com report: 2026-11-11; survey conducted November 9–10",
+   "title": "另一项调查：Blind 的 232 名受访员工中，88% 支持继续任职",
+   "titleEn": "Separate survey: 88% of 232 NVIDIA respondents on Blind favored Huang staying",
+   "body": "据 Investing.com，Blind 于 11 月 9–10 日调查了 232 名英伟达员工，88% 支持黄仁勋继续担任 CEO。这早于辞任公告，与凤凰后来报道的内网投票不是同一项。本站核对了媒体报道，尚未取得原始问卷或抽样方法；结果不能推广到全体员工。",
+   "bodyEn": "Investing.com reports that a November 9–10 Blind survey of 232 NVIDIA employees found 88% favored Huang remaining CEO. It predates the resignation announcement and is separate from the internal poll later reported by Ifeng. We checked the media report, not the original questionnaire or sampling method; the result cannot be generalized to all employees.",
+   "src": [
+    [
+     "Investing.com：Blind 调查报道",
+     "Investing.com: report on the Blind survey",
+     "https://za.investing.com/news/stock-market-news/nvidia-employees-overwhelmingly-want-huang-to-remain-ceo-despite-spy-affair-4568561"
+    ]
+   ]
   },
   {
    "kind": "official",
@@ -220,6 +276,11 @@
    "News"
   ],
   [
+   "voices",
+   "行业声音",
+   "Industry voices"
+  ],
+  [
    "video",
    "采访与视频",
    "Interviews & video"
@@ -265,9 +326,162 @@
   "page": [
    "官方资料页",
    "Official page"
+  ],
+  "post": [
+   "公开帖文",
+   "Public post"
+  ],
+  "filing": [
+   "监管文件",
+   "Regulatory filing"
   ]
  },
  "ITEMS": [
+  {
+   "id": "ifeng-internal-poll-1113",
+   "title": "员工自发内网投票：超 97% 参与者希望留任",
+   "titleEn": "Employee-organized internal poll: over 97% of participants favor Huang staying",
+   "summary": "凤凰网科技采访员工称，一项员工自发发起的内网投票中，超过 97% 的参与者希望黄仁勋留任。报道未披露总投票人数或完整投票方法，不能据此推断全体员工的比例；这也不是公司宣布的正式投票结果。",
+   "summaryEn": "Ifeng Tech reports, citing an employee, that more than 97% of participants in an employee-organized internal poll wanted Huang to stay. The report gives no total number of voters or full polling method. This does not establish a percentage of all NVIDIA employees and is not a company-announced voting result.",
+   "sourceName": "凤凰网科技",
+   "sourceUrl": "https://original.ifeng.com/c/8y0vtza37Pg",
+   "publishedAt": "2026-11-13",
+   "checkedAt": "2026-11-13",
+   "type": "news",
+   "format": "rep",
+   "sourceType": "media",
+   "verificationStatus": "opened",
+   "featured": true,
+   "sourceNameEn": "Ifeng Tech"
+  },
+  {
+   "id": "wired-employee-comments-1112",
+   "title": "WIRED：内网呼吁获 1,600 多条评论",
+   "titleEn": "WIRED: internal appeal draws over 1,600 comments",
+   "summary": "公开摘要称，多数评论支持黄仁勋回归。1,600 多条是评论数，不是人数或投票分母；97% 应另引凤凰报道。",
+   "summaryEn": "The public summary says most comments favor Huang’s return. The figure counts comments, not people or votes. The separate 97% polling claim comes from Ifeng.",
+   "sourceName": "WIRED",
+   "sourceUrl": "https://www.wired.com/story/nvidia-employees-petition-for-jensen-huangs-return/",
+   "publishedAt": "2026-11-12",
+   "checkedAt": "2026-11-13",
+   "type": "news",
+   "format": "rep",
+   "sourceType": "media",
+   "verificationStatus": "summary",
+   "featured": true
+  },
+  {
+   "id": "blind-survey-1111",
+   "title": "Blind 调查报道：232 名员工，88% 支持继续任职",
+   "titleEn": "Blind survey report: 232 employees, 88% favor Huang staying",
+   "summary": "Investing.com 报道的 11 月 9–10 日调查，早于辞任公告。与 97% 内网投票不同；原始问卷和抽样方法尚未独立核对。",
+   "summaryEn": "Investing.com reports a November 9–10 survey conducted before the resignation announcement. It is separate from the 97% internal poll; we have not independently checked the questionnaire or sampling method.",
+   "sourceName": "Investing.com",
+   "sourceUrl": "https://za.investing.com/news/stock-market-news/nvidia-employees-overwhelmingly-want-huang-to-remain-ceo-despite-spy-affair-4568561",
+   "publishedAt": "2026-11-11",
+   "checkedAt": "2026-11-13",
+   "type": "news",
+   "format": "rep",
+   "sourceType": "media",
+   "verificationStatus": "opened",
+   "featured": true
+  },
+  {
+   "id": "sec-transition-1112",
+   "title": "SEC 8-K：辞任事件日期与公告日期",
+   "titleEn": "SEC Form 8-K: resignation event and announcement dates",
+   "summary": "文件称董事会于 11 月 11 日接受辞任，所附新闻稿日期为 11 月 12 日；同时披露临时 CEO 与董事长任命。",
+   "summaryEn": "The filing dates the Board’s acceptance of the resignation to November 11 and attaches the November 12 press release. It also records the interim CEO and Board Chair appointments.",
+   "sourceName": "SEC EDGAR",
+   "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000082/nvda-20261111.htm",
+   "publishedAt": "2026-11-12",
+   "checkedAt": "2026-11-13",
+   "type": "news",
+   "format": "filing",
+   "sourceType": "official",
+   "verificationStatus": "opened",
+   "featured": true
+  },
+  {
+   "id": "kernel-voices-1113",
+   "title": "Kernel：整理行业声援与讨论",
+   "titleEn": "Kernel: sharing industry reactions",
+   "summary": "中文 AI 创作者 Kernel 分享了多位行业人士关于黄仁勋的发言。各人的立场需回到原帖理解；转述不代表对本站的支持或合作。",
+   "summaryEn": "Chinese-language AI creator Kernel shares reactions from industry figures. Read each original post for its position; inclusion here does not imply support for or a partnership with this site.",
+   "sourceName": "Kernel · X",
+   "sourceUrl": "https://x.com/Ssr360535694/status/2121093663614812575",
+   "publishedAt": "2026-11-13",
+   "checkedAt": "2026-11-13",
+   "type": "voices",
+   "format": "post",
+   "sourceType": "community",
+   "verificationStatus": "opened",
+   "featured": true
+  },
+  {
+   "id": "tim-sweeney-voices-1112",
+   "title": "Tim Sweeney：公开呼吁支持 Jensen",
+   "titleEn": "Tim Sweeney: a public appeal to save Jensen",
+   "summary": "Tim Sweeney 明确呼吁支持黄仁勋，强调他从游戏 GPU、CUDA 到 AI 的技术贡献，并批评可能更换创始人的决定。发表于辞任公告前的讨论中。",
+   "summaryEn": "Tim Sweeney explicitly calls for support for Huang, emphasizing his work across gaming GPUs, CUDA and AI, and criticizing a potential decision to replace the founder. The post responds to pre-announcement reporting.",
+   "sourceName": "Tim Sweeney · X",
+   "sourceUrl": "https://x.com/TimSweeneyEpic/status/2120708404096168032",
+   "publishedAt": "2026-11-12",
+   "checkedAt": "2026-11-13",
+   "type": "voices",
+   "format": "post",
+   "sourceType": "community",
+   "verificationStatus": "opened",
+   "featured": true
+  },
+  {
+   "id": "lex-fridman-voices-1113",
+   "title": "Lex Fridman：公开表示支持 Jensen",
+   "titleEn": "Lex Fridman: standing with Jensen",
+   "summary": "Lex Fridman 认为失去黄仁勋是 NVIDIA 的重大错误，并表达个人支持；同时明确关心其家人与团队。这里记录其个人观点，不代表任何调查结论。",
+   "summaryEn": "Lex Fridman calls Huang’s departure a major mistake and expresses personal support, while acknowledging his family and team. This is his personal opinion, not an investigative finding.",
+   "sourceName": "Lex Fridman · X",
+   "sourceUrl": "https://x.com/lexfridman/status/2120986129671631239",
+   "publishedAt": "2026-11-13",
+   "checkedAt": "2026-11-13",
+   "type": "voices",
+   "format": "post",
+   "sourceType": "community",
+   "verificationStatus": "opened",
+   "featured": true
+  },
+  {
+   "id": "naval-voices-1113",
+   "title": "Naval：强调创始人的不可替代性",
+   "titleEn": "Naval: the founder’s unique role",
+   "summary": "Naval 将黄仁勋之于 NVIDIA 的作用与乔布斯之于苹果相比较，表达对其独特价值的认可。该帖没有表示加入本站活动。",
+   "summaryEn": "Naval compares Huang’s role at NVIDIA with Steve Jobs’s role at Apple, emphasizing his unique value. The post does not state participation in this site’s campaign.",
+   "sourceName": "Naval · X",
+   "sourceUrl": "https://x.com/naval/status/2121143697161236839",
+   "publishedAt": "2026-11-13",
+   "checkedAt": "2026-11-13",
+   "type": "voices",
+   "format": "post",
+   "sourceType": "community",
+   "verificationStatus": "opened",
+   "featured": true
+  },
+  {
+   "id": "sarah-guo-voices-1112",
+   "title": "Sarah Guo：肯定贡献，也要求问责与调查",
+   "titleEn": "Sarah Guo: contributions, accountability and investigation",
+   "summary": "Sarah Guo 肯定黄仁勋的创业贡献，认为长期建设公司的创始人值得获得继续领导的考量；但她将这一判断与调查答案联系，并明确要求忠诚与问责。",
+   "summaryEn": "Sarah Guo praises Huang’s entrepreneurial contribution and argues a long-serving founder merits consideration to keep leading, while making her view contingent on investigative answers and calling for accountability.",
+   "sourceName": "Sarah Guo · X",
+   "sourceUrl": "https://x.com/saranormous/status/2120780661124714560",
+   "publishedAt": "2026-11-12",
+   "checkedAt": "2026-11-13",
+   "type": "voices",
+   "format": "post",
+   "sourceType": "community",
+   "verificationStatus": "opened",
+   "featured": true
+  },
   {
    "id": "nv-ceo-transition-1112",
    "title": "NVIDIA Announces CEO Transition",
