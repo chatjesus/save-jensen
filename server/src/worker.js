@@ -216,21 +216,25 @@ function cleanText(s) {
     .replace(/ +/g, " ").replace(/ *\n */g, "\n").replace(/\n{3,}/g, "\n\n").trim();
 }
 
-const RE_LINK = /(https?:\/\/|www\.|\b[a-z0-9-]+\.(?:com|net|org|cn|io|ai|xyz|top|cc|me|co|ru|info|vip|shop|app|dev|gg|ly|tv|link|site|online)\b)/i;
+const RE_LINK = /(https?:\/\/|www\.|\b[a-z0-9-]+\.(?:com|net|org|cn|io|ai|xyz|top|cc|me|co|ru|info|vip|shop|app|dev|gg|ly|tv|link|site|online|biz|tech|us|uk|de|fr|edu|gov)\b)/i;
 const RE_EMAIL = /[^\s@]+@[^\s@]+\.[a-z]{2,}/i;
 const RE_PHONE = /(?:\+?\d[\s\-().]{0,2}){8,}/;
 const RE_CONTACT = /(加\s*[vV微]|微信|威信|vx\s*[:：]|wechat|whats\s*app|telegram|电报|qq\s*[:：]?\s*\d|扣扣)/i;
-const ABUSE = ["傻逼", "傻b", "煞笔", "操你", "草泥马", "去死", "贱人", "婊子", "废物", "滚蛋", "狗东西", "fuck", "shit", "bitch", "asshole", "bastard", "cunt", "kill yourself", "kys", "retard"];
+const ABUSE_ZH = ["傻逼", "傻b", "煞笔", "操你", "草泥马", "去死", "贱人", "婊子", "废物", "滚蛋", "狗东西"];
+const ABUSE_EN = /(?:^|[^\p{L}\p{N}])(?:f[\s._*-]*u[\s._*-]*c[\s._*-]*k(?:ing|ed|er|s)?|s[\s._*-]*h[\s._*-]*i[\s._*-]*t|bitch|asshole|bastard|cunt|kill\s+yourself|kys|retard)(?=$|[^\p{L}\p{N}])/iu;
 
 /**
  * Automatic pre-screening. It only catches obvious cases (links, contact details, common insults,
- * flooding); everything that passes still waits for a human admin. Returns an error code or null.
+ * flooding). Passing messages publish immediately; admins can hide abuse afterwards.
+ * This is a basic text filter, not a semantic text/image moderation service.
  */
 export function screen(nickname, content) {
+  const name = nickname.normalize("NFKC").toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
+  if (name.includes("savejensen") || /^(?:本站|网站)?(?:官方|管理员|主办方|运营团队|管理团队)$/.test(name)) return "reserved_nickname";
   const text = `${nickname}\n${content}`.normalize("NFKC").toLowerCase();
   if (RE_EMAIL.test(text) || RE_PHONE.test(text) || RE_CONTACT.test(text)) return "blocked_contact";
   if (RE_LINK.test(text)) return "blocked_link";
-  if (ABUSE.some((w) => text.includes(w))) return "blocked_abuse";
+  if (ABUSE_ZH.some((w) => text.replace(/[\s._*-]/g, "").includes(w)) || ABUSE_EN.test(text)) return "blocked_abuse";
   const body = content.replace(/\s/g, "");
   if (/(.)\1{9,}/u.test(body)) return "blocked_repeat";
   const chars = Array.from(body);
@@ -439,8 +443,8 @@ async function api(request, env, url) {
     const t = now();
     try {
       const ins = env.DB.prepare(
-        "INSERT INTO messages (id, device_hash, nickname, content, lang, status, consent_public, idem_key, created_at) VALUES (?, ?, ?, ?, ?, 'pending', 1, ?, ?)"
-      ).bind(id, d.hash, nickname, content, lang, idem, t);
+        "INSERT INTO messages (id, device_hash, nickname, content, lang, status, consent_public, idem_key, created_at, reviewed_at) VALUES (?, ?, ?, ?, ?, 'approved', 1, ?, ?, ?)"
+      ).bind(id, d.hash, nickname, content, lang, idem, t, t);
       // Message and avatar are written together or not at all.
       if (avatar) await env.DB.batch([ins, env.DB.prepare("INSERT INTO message_avatars (message_id, mime, bytes, width, height, created_at) VALUES (?, ?, ?, ?, ?, ?)").bind(id, avatar.mime, avatar.bytes, avatar.width, avatar.height, t)]);
       else await ins.run();
@@ -450,7 +454,7 @@ async function api(request, env, url) {
       if (row) return json({ message: row, duplicate: true }, 200, cookie);
       throw e;
     }
-    return json({ message: { id, nickname, content, status: "pending", createdAt: t, hasAvatar: !!avatar } }, 201, cookie);
+    return json({ message: { id, nickname, content, status: "approved", createdAt: t, hasAvatar: !!avatar } }, 201, cookie);
   }
 
   if (path === "/api/messages/mine" && method === "DELETE") {

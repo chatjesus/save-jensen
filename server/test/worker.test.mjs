@@ -145,7 +145,7 @@ test("support: server-confirmed, one record per device, withdraw, same-origin on
   assert.equal((await a("POST", "/api/support")).data.supportCount, 2, "can support again after withdrawing");
 });
 
-test("messages: validation, automatic screening, pending until approved", async () => {
+test("messages: validation, automatic screening, immediate public display", async () => {
   const env = makeEnv();
   const a = client(env);
   assert.equal((await a("POST", "/api/messages", { body: msg({ consentPublic: false }) })).data.error, "consent_required");
@@ -162,6 +162,12 @@ test("messages: validation, automatic screening, pending until approved", async 
   assert.equal(screen("nick", "you are a BITCH"), "blocked_abuse");
   assert.equal(screen("nick", "哈哈哈哈哈哈哈哈哈哈哈哈"), "blocked_repeat");
   assert.equal(screen("渲染开发者", "The RTX 3080 got me through 2020."), null);
+  assert.equal(screen("Kysely user", "I build apps in Scunthorpe."), null, "ordinary words must not be mistaken for insults");
+  assert.equal(screen("开发者", "我不支持他复职，但愿意听取其他人的理由。"), null);
+  assert.equal(screen("Builder", "I disagree with the request for his return."), null);
+  assert.equal(screen("nick", "you are f u c k ing rude"), "blocked_abuse");
+  assert.equal(screen("nick", "go to example.biz"), "blocked_link");
+  assert.equal(screen("Save Jensen Team", "Welcome!"), "reserved_nickname");
 
   const env2 = makeEnv();
   const c = client(env2);
@@ -170,24 +176,33 @@ test("messages: validation, automatic screening, pending until approved", async 
   const xss = '<img src=x onerror=alert(1)> thanks';
   const sent = await c("POST", "/api/messages", { body: msg({ content: xss }) });
   assert.equal(sent.status, 201);
-  assert.equal(sent.data.message.status, "pending");
+  assert.equal(sent.data.message.status, "approved");
   assert.equal(sent.data.message.content, xss, "stored as plain text; clients render with textContent");
   assert.match(sent.headers.get("Content-Type"), /application\/json/);
 
-  assert.deepEqual((await c("GET", "/api/messages")).data, { messages: [], next: null }, "pending is not public");
-  assert.equal((await c("GET", "/api/state")).data.message.status, "pending");
+  const published = (await c("GET", "/api/messages")).data;
+  assert.equal(published.messages.length, 1, "immediately visible without an admin action");
+  assert.equal(published.messages[0].id, sent.data.message.id);
+  assert.equal(published.messages[0].approvedAt, sent.data.message.createdAt);
+  assert.equal((await c("GET", "/api/state")).data.message.status, "approved");
 
   const retry = await c("POST", "/api/messages", { body: msg({ content: xss }) });
   assert.equal(retry.status, 200);
   assert.equal(retry.data.message.id, sent.data.message.id, "same idempotency key returns the same row");
   assert.equal((await c("POST", "/api/messages", { body: msg({ idempotencyKey: "key-0002-bbbb" }) })).status, 409, "one active message per device");
   assert.equal(env2._db.prepare("SELECT COUNT(*) n FROM messages").get().n, 1);
+  await c("DELETE", "/api/messages/mine");
+  const withdrawnRetry = await c("POST", "/api/messages", { body: msg({ content: xss }) });
+  assert.equal(withdrawnRetry.data.message.status, "withdrawn", "a late retry never republishes a withdrawn message");
+  assert.equal((await c("GET", "/api/messages")).data.messages.length, 0);
 });
 
 test("admin: bearer token, approve shows on wall, withdraw removes at once and cannot be revived", async () => {
   const env = makeEnv();
   const user = client(env), adm = client(env, "198.51.100.7");
   const id = (await user("POST", "/api/messages", { body: msg() })).data.message.id;
+  // Historical pending rows remain manageable after immediate publishing is enabled.
+  env._db.prepare("UPDATE messages SET status = 'pending', reviewed_at = NULL WHERE id = ?").run(id);
 
   assert.equal((await adm("GET", "/api/admin/messages")).status, 401);
   assert.equal((await adm("GET", "/api/admin/messages", { token: "wrong" })).status, 401);
@@ -474,13 +489,12 @@ test("avatar: validated on the server, public only while approved, deleted on wi
   assert.equal(rows(), 1);
   assert.equal((await other("GET", "/api/state")).data.message.hasAvatar, true);
 
-  assert.equal((await user("GET", "/api/avatars/" + id)).status, 404, "pending: not public");
+  assert.equal((await user("GET", "/api/avatars/" + id)).status, 200, "avatar publishes with its message");
   assert.equal((await adm("GET", `/api/admin/messages/${id}/avatar`)).status, 401);
   const forAdmin = await worker.fetch(new Request(ORIGIN + `/api/admin/messages/${id}/avatar`, { headers: { Authorization: "Bearer " + ADMIN, "CF-Connecting-IP": "198.51.100.7" } }), env);
   assert.equal(forAdmin.status, 200);
-  assert.equal((await adm("GET", "/api/admin/messages?status=pending", { token: ADMIN })).data.messages[0].hasAvatar, true);
+  assert.equal((await adm("GET", "/api/admin/messages?status=approved", { token: ADMIN })).data.messages[0].hasAvatar, true);
 
-  await adm("POST", `/api/admin/messages/${id}/approve`, { token: ADMIN });
   const pub = await worker.fetch(new Request(ORIGIN + "/api/avatars/" + id), env);
   assert.equal(pub.status, 200);
   assert.equal(pub.headers.get("Content-Type"), "image/jpeg");

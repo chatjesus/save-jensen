@@ -90,13 +90,6 @@ window.SJ_CONFIG = {
       <button class="btn sm jsonly retry" type="button" id="cheerRetry" hidden></button>
       <button class="btn sm jsonly" type="button" id="cheerUndo" hidden data-en="Withdraw this device’s energy">撤回本机应援能量</button>
     </div>
-    <div class="wall rev" id="wallBox">
-      <h3 data-en="Selected messages of support">精选支持留言</h3>
-      <p class="note" data-en='Shown after admin review. Nicknames are self-chosen and not verified identities. <a href="#support">Write yours →</a>'>管理员审核通过后展示。昵称由留言者自拟，不代表经过核实的身份。<a href="#support">写下你的留言 →</a></p>
-      <ul id="wall"></ul>
-      <p class="note livemsg" id="wallMsg" aria-live="polite" data-en="Messages load from our server and need JavaScript.">留言从服务器读取，需要启用 JavaScript。</p>
-      <button class="btn sm" type="button" id="wallMore" hidden data-en="Load more">加载更多</button>
-    </div>
     <div class="res rev">
       <h3 data-en="Other efforts in support">其他支持倡议</h3>
       <ul>
@@ -203,6 +196,17 @@ window.SJ_CONFIG = {
       <div><p class="kicker" data-en="03 · Your story">03 · 你的故事</p><h2 id="supH" data-en="How did his work change yours?">他的工作，<br>怎样影响了你？</h2></div>
       <div class="side"><p data-en="No slogans needed. One real experience carries more weight than any number.">不需要口号。一段真实经历，比任何数字都有分量。</p></div>
     </div>
+    <div class="wall" id="wallBox">
+      <div class="wall-heading"><div><h3 data-en="Community messages">大家的留言</h3><p class="note" data-en="A thought, a thank-you, a story. Add your voice.">一句感谢，一段经历。把你的声音留在这里。</p></div><div class="cta"><a class="btn pri sm" href="#msgForm" data-en="Write a message">写留言</a><button class="btn sm jsonly" type="button" id="wallRefresh" data-en="Refresh">刷新</button></div></div>
+      <ul id="wall"></ul>
+      <p class="note livemsg" id="wallMsg" aria-live="polite" data-en="Messages load from our server and need JavaScript.">留言从服务器读取，需要启用 JavaScript。</p>
+      <button class="btn sm" type="button" id="wallMore" hidden data-en="Load more">加载更多</button>
+      <ul class="organizer-notes" aria-label="主办方留言" data-en-label="Messages from the organizers">
+        <li><span class="team-label" data-en="From the organizers">主办方留言</span><p data-en="Thank you for being here. We built Save Jensen to give builders and supporters a place to speak. What did your first GPU, your first model, or a Jensen keynote make possible for you?">谢谢你来到这里。我们做 Save Jensen，是想给开发者和支持者留一个发声的地方。你的第一块显卡、第一次跑通的模型，或一场老黄的演讲，带来了什么改变？</p><div class="who"><span class="av team-avatar" aria-hidden="true">SJ</span><span data-en="Save Jensen Team">Save Jensen 团队</span></div></li>
+        <li><span class="team-label" data-en="From the organizers">主办方留言</span><p data-en="We hope Jensen can return to leadership and keep building AI. Our organizer letter has been sent to NVIDIA; we are still waiting for acknowledgment. We will share any confirmed response here.">我们希望黄仁勋能重返领导岗位，继续推动 AI。主办方公开信已发往英伟达，目前仍在等待收件确认。有经过核实的新回应，我们会在这里更新。</p><div class="who"><span class="av team-avatar" aria-hidden="true">SJ</span><span data-en="Save Jensen Team">Save Jensen 团队</span></div></li>
+        <li><span class="team-label" data-en="From the organizers">主办方留言</span><p data-en="One honest story means more than a copied slogan. Tell us what you built, learned, or hope to build next. Different views are welcome too. Keep it respectful and protect other people's privacy.">一段真诚的故事，比复制的口号更有分量。说说你做过什么、学到了什么，或者下一步想创造什么。也欢迎不同看法，请彼此尊重，保护他人的隐私。</p><div class="who"><span class="av team-avatar" aria-hidden="true">SJ</span><span data-en="Save Jensen Team">Save Jensen 团队</span></div></li>
+      </ul>
+    </div>
     <div class="sup-grid">
       <figure class="por rev">
         <div class="ph"><img src="{{ROOT}}assets/jensen-stanford-portrait.jpg" width="960" height="1280" loading="lazy" alt="黄仁勋身穿黑色皮衣，坐着边说话边比划" data-en-alt="Jensen Huang in a black leather jacket, seated and gesturing as he speaks"></div>
@@ -214,6 +218,7 @@ window.SJ_CONFIG = {
         <div class="mineMsg" id="msgMine" hidden>
           <span class="b" id="mineStatus"></span>
           <blockquote id="mineText"></blockquote>
+          <a class="btn sm" id="viewMyMessage" href="#wallBox" hidden data-en="See the wall">查看留言墙</a>
           <button class="btn sm" type="button" id="msgWithdraw" data-en="Withdraw my message">撤回我的留言</button>
         </div>
         <div id="msgFields" class="jsonly">
@@ -223,17 +228,17 @@ window.SJ_CONFIG = {
           <textarea id="story" rows="5" maxlength="280" placeholder="写你自己的真实经历。请勿包含链接、联系方式或他人隐私。" data-en-placeholder="Your own real experience. No links, contact details, or anyone else’s private information."></textarea>
           <label for="avatar" data-en="Avatar (optional)">头像（可选）</label>
           <div class="avrow"><span class="av" id="avPrev" aria-hidden="true"></span><input type="file" id="avatar" accept="image/jpeg,image/png,image/webp"><button class="btn sm" type="button" id="avClear" hidden data-en="Remove">移除</button></div>
-          <p class="note" style="margin:8px 0 0" data-en="Shrunk to a small square in your browser before upload, and reviewed together with your message. Please do not use a photo of someone else.">上传前会在你的浏览器里缩成小方图，随留言一起审核。请不要使用他人的照片。</p>
-          <label class="check"><input type="checkbox" id="consent"><span data-en="I agree that my nickname, message and avatar (if any) may be shown publicly on this site after review.">我同意昵称、留言和头像（如有）在审核通过后公开展示在本站。</span></label>
+          <p class="note" style="margin:8px 0 0" data-en="Shrunk to a small square in your browser before upload. Choose your own photo or artwork.">上传前会在浏览器里缩成小方图。请使用你自己的照片或创作。</p>
+          <label class="check"><input type="checkbox" id="consent"><span data-en="I agree to publish my nickname, message and optional avatar on this site.">我同意将昵称、留言和头像（如有）公开展示在本站。</span></label>
           <div class="cta" style="margin:18px 0 0;gap:8px">
-            <button class="btn pri" type="submit" id="msgSubmit" data-en="Submit for review">提交审核</button>
+            <button class="btn pri" type="submit" id="msgSubmit" data-en="Post message">发布留言</button>
             <button class="btn" type="button" id="dlCard" data-en="Download card (PNG)">下载卡片 PNG</button>
             <button class="btn" type="button" id="clearDraft" data-en="Clear">清空</button>
           </div>
         </div>
         <details>
-          <summary data-en="Privacy and moderation">隐私与审核说明</summary>
-          <div data-en='<p>Every message waits for a human admin. An automatic check first rejects obvious problems (links, contact details, insults, flooding); it is a coarse filter and cannot judge everything, so passing it does not mean approval. Approved messages appear as “Selected messages of support”; not every message is shown.</p><p>We store your nickname, your message, your optional avatar (a small image), a hash of a random credential kept in a cookie on this device (to recognise your own record), and, for a short time, a salted hash of your IP address for rate limiting. No login, email, or real name. You can withdraw your message from this device at any time and it leaves the wall at once; the avatar is deleted.</p><p>A message is not a signature on the open letter and is not delivered to NVIDIA automatically.</p>'><p>每条留言都要等管理员人工审核。提交时会先做一次自动检查，拦下明显的问题（链接、联系方式、辱骂、刷屏）；它只是粗筛，无法判断一切，通过它不代表通过审核。通过审核的留言以“精选支持留言”展示，并非所有留言都会展示。</p><p>我们保存：昵称、留言、可选的头像（小尺寸图片）、此设备 Cookie 中随机凭据的哈希（用来认出你自己的记录），以及短期保存、加盐后的 IP 哈希（用于限流）。不需要登录、邮箱或真实姓名。你可以随时在这台设备上撤回留言，撤回后立即从留言墙移除，头像同时删除。</p><p>留言不是公开信的联署签名，也不会自动递交给英伟达。</p></div>
+          <summary data-en="Privacy and community rules">隐私与社区规则</summary>
+          <div data-en='<p>Messages publish immediately after basic automatic text checks for links, contact details, common insults and flooding. The filter is imperfect; image checks validate file format and size, not image content. Admins can hide abusive content afterwards. Respectful disagreement is welcome. Visitor nicknames are self-chosen, not verified identities; organizer notes are labeled separately.</p><p>We store your nickname, your message, your optional avatar (a small image), a hash of a random credential kept in a cookie on this device (to recognise your own record), and, for a short time, a salted hash of your IP address for rate limiting. No login, email, or real name. You can withdraw your message from this device at any time and it leaves the wall at once; the avatar is deleted.</p><p>A message is not a signature on the open letter and is not delivered to NVIDIA automatically.</p>'><p>留言通过基本自动文字检查后立即公开，系统会拦截明显的链接、联系方式、常见辱骂与刷屏。过滤并不完美；图片只检查格式与尺寸，不识别图片内容。管理员可以事后隐藏违规内容，礼貌的不同意见可以保留。访客昵称由本人自拟，未经身份核实；主办方留言另有标注。</p><p>我们保存：昵称、留言、可选的头像（小尺寸图片）、此设备 Cookie 中随机凭据的哈希（用来认出你自己的记录），以及短期保存、加盐后的 IP 哈希（用于限流）。不需要登录、邮箱或真实姓名。你可以随时在这台设备上撤回留言，撤回后立即从留言墙移除，头像同时删除。</p><p>留言不是公开信的联署签名，也不会自动递交给英伟达。</p></div>
         </details>
       </form>
       <div class="rev">

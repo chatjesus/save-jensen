@@ -2,8 +2,8 @@
 (function () {
   "use strict";
   var $ = function (s) { return document.querySelector(s); };
-  var token = "", status = "pending";
-  var NAMES = { pending: "待审核", approved: "已通过", hidden: "已隐藏", withdrawn: "已撤回" };
+  var token = "", status = "approved";
+  var NAMES = { pending: "待审核", approved: "已发布", hidden: "已隐藏", withdrawn: "已撤回" };
   var ERR = { unauthorized: "令牌不正确。", admin_disabled: "服务器没有配置 ADMIN_TOKEN，管理功能未启用。", rate_limited: "请求太频繁，请稍后再试。", not_allowed: "这条留言当前状态不允许此操作（例如已被留言者撤回）。", conflict_active: "该设备已有另一条待审核或已通过的留言，不能同时通过两条。", not_found: "找不到这条留言。", bad_origin: "请求来源不被接受。" };
 
   function say(t, bad) { var m = $("#msg"); m.textContent = t || ""; m.classList.toggle("err", !!bad); }
@@ -19,7 +19,7 @@
     return call("GET", "/api/admin/messages?status=" + status + "&limit=100").then(function (j) {
       $("#auth").hidden = true; $("#panel").hidden = false;
       var c = j.counts || {};
-      $("#stats").textContent = "支持记录 " + j.supportCount + " 条 · 待审核 " + (c.pending || 0) + " · 已通过 " + (c.approved || 0) + " · 已隐藏 " + (c.hidden || 0) + " · 已撤回 " + (c.withdrawn || 0);
+      $("#stats").textContent = "支持记录 " + j.supportCount + " 条 · 待审核 " + (c.pending || 0) + " · 已发布 " + (c.approved || 0) + " · 已隐藏 " + (c.hidden || 0) + " · 已撤回 " + (c.withdrawn || 0);
       var ul = $("#list"); ul.textContent = "";
       j.messages.forEach(function (m) {
         var li = document.createElement("li"), meta = document.createElement("div"), p = document.createElement("p"), who = document.createElement("strong"), acts = document.createElement("div");
@@ -27,7 +27,7 @@
         who.textContent = m.nickname; p.textContent = m.content; acts.className = "srow";
         if (m.hasAvatar) {
           // The avatar is fetched with the token (no cookie, no URL secret) and shown from memory.
-          var im = document.createElement("img"); im.width = im.height = 96; im.alt = "头像（待审核）"; im.className = "avadm";
+          var im = document.createElement("img"); im.width = im.height = 96; im.alt = "留言头像"; im.className = "avadm";
           fetch("/api/admin/messages/" + m.id + "/avatar", { headers: { Authorization: "Bearer " + token }, cache: "no-store" })
             .then(function (r) { if (!r.ok) throw new Error("avatar"); return r.blob(); })
             .then(function (b) { im.src = URL.createObjectURL(b); }, function () { im.alt = "头像读取失败"; });

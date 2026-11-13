@@ -43,6 +43,7 @@ var ERR={
   bad_origin:["请求来源不被接受，请从本站页面操作。","This request was not accepted. Please use the site directly."],
   consent_required:["请先勾选同意公开展示。","Please tick the box to agree to public display."],
   invalid_nickname:["昵称需要 2–32 个字。","The nickname must be 2–32 characters."],
+  reserved_nickname:["这个昵称留给站点团队使用，请换一个昵称。","That nickname is reserved for the site team. Please choose another."],
   invalid_content:["留言需要 1–280 个字。","The message must be 1–280 characters."],
   blocked_link:["留言里不能有链接或网址，请删掉后再提交。","Messages cannot contain links or web addresses. Please remove them and resubmit."],
   blocked_contact:["留言里不能有邮箱、电话或其他联系方式。","Messages cannot contain email addresses, phone numbers, or other contact details."],
@@ -216,20 +217,21 @@ $$(".js-share").forEach(function(b){b.addEventListener("click",doShare)});
 
 /* ---------- my message + wall ---------- */
 var nick=$("#nick"), story=$("#story"), consent=$("#consent"), cv=$("#card"), DR="sj_story_draft_v2", idem=null;
-var STAT={pending:["待审核 · 尚未公开","Pending review · not public"],approved:["已通过审核 · 公开展示中","Approved · shown publicly"],hidden:["未公开展示","Not shown publicly"]};
+var STAT={pending:["尚未公开","Not published"],approved:["已发布","Published"],hidden:["未公开展示","Not shown publicly"],withdrawn:["已撤回","Withdrawn"]};
 function setMsg(text,isErr){var el=$("#msgState");el.textContent=text;el.classList.toggle("err",!!isErr)}
 function renderMine(){
   var m=S.message, box=$("#msgMine");
   box.hidden=!m;
   $("#msgSubmit").hidden=!!m;consent.closest("label").hidden=!!m;
-  $("#msgSubmit").disabled=!S.ready;
-  if(m){$("#mineStatus").textContent=T(STAT[m.status][0],STAT[m.status][1]);$("#mineStatus").className="b "+(m.status==="approved"?"community":m.status==="pending"?"unverified":"");
+  $("#msgSubmit").disabled=!S.ready||!!S.busyMsg||avatarBusy;
+  $("#viewMyMessage").hidden=!m||m.status!=="approved";
+  if(m){var state=STAT[m.status]||STAT.hidden;$("#mineStatus").textContent=T(state[0],state[1]);$("#mineStatus").className="b "+(m.status==="approved"?"community":"");
     $("#mineText").textContent=m.content+"\n— "+m.nickname+(m.hasAvatar?T("（含头像）"," (with avatar)"):"")}
 }
 function loadState(){
   return api("GET","/api/state").then(function(j){
     S.ready=true;S.message=j.message||null;S.note="";S.err=false;if(j.cheers){S.total=j.cheers.total;S.mine=j.cheers.mine;S.epoch=j.cheers.epoch}S.shares=typeof j.shares==="number"?j.shares:null;
-    setMsg(S.message?T("这是这台设备提交的留言。","This is the message submitted from this device."):T("提交后进入人工审核，通过后才会公开。","After you submit, a human reviews it before it becomes public."));
+    setMsg(S.message?T("这是这台设备提交的留言。","This is the message submitted from this device."):T("写下你的故事，发布后就能在留言墙看到。","Share your story. It appears on the wall as soon as it is published."));
   },function(e){
     S.ready=false;S.err=true;S.note=T("应援服务暂时不可用，现在无法应援，也读不到应援能量。","The service is unavailable, so adding and reading support energy are not working right now.");
     setMsg(T("留言服务暂时不可用，现在无法提交。","The message service is unavailable, so submitting is not possible right now."),true);
@@ -237,7 +239,7 @@ function loadState(){
 }
 $("#msgForm").addEventListener("submit",function(ev){
   ev.preventDefault();
-  if(!S.ready||S.busyMsg||S.message)return;
+  if(!S.ready||S.busyMsg||S.message||avatarBusy)return;
   var n=nick.value.replace(/\s+/g," ").trim(), c=story.value.trim(), len=function(s){return Array.from(s).length};
   if(len(n)<2||len(n)>32){setMsg(errText({code:"invalid_nickname"}),true);nick.focus();return}
   if(len(c)<1||len(c)>280){setMsg(errText({code:"invalid_content"}),true);story.focus();return}
@@ -246,19 +248,23 @@ $("#msgForm").addEventListener("submit",function(ev){
   S.busyMsg=true;$("#msgSubmit").disabled=true;setMsg(T("正在提交…","Submitting…"));
   var payload={nickname:n,content:c,consentPublic:true,lang:lang,idempotencyKey:idem};if(avatarData)payload.avatar={mime:avatarData.mime,data:avatarData.data};
   mutate("POST","/api/messages",payload).then(function(j){
-    S.message=j.message;idem=null;setMsg(T("已提交，等待管理员审核。现在还没有公开。","Submitted and waiting for admin review. It is not public yet."));
+    S.message=j.message;idem=null;
+    if(S.message&&S.message.status==="approved")setMsg(T("已发布！你的留言已加入留言墙。","Published! Your message is now on the wall."));
+    else if(S.message&&S.message.status==="withdrawn"){S.message=null;setMsg(T("这条留言已撤回，未重新发布。","This message was withdrawn and has not been republished."))}
+    else setMsg(T("这条留言当前未公开展示。","This message is not currently public."));
+    loadWall(true);
   },function(e){
     if(e.code==="already_exists"&&e.data&&e.data.message)S.message=e.data.message;
     setMsg(errText(e),true);
   }).then(function(){S.busyMsg=false;renderMine()});
 });
 $("#msgWithdraw").addEventListener("click",function(){
-  var b=this;b.disabled=true;setMsg(T("正在撤回…","Withdrawing…"));
-  mutate("DELETE","/api/messages/mine").then(function(){S.message=null;consent.checked=false;setAvatar(null);setMsg(T("已撤回，留言和头像已从留言墙移除。","Withdrawn. The message and avatar have been removed from the wall."));loadWall(true)},
+  var b=this,messageId=S.message&&S.message.id;b.disabled=true;setMsg(T("正在撤回…","Withdrawing…"));
+  mutate("DELETE","/api/messages/mine").then(function(){wallGeneration++;$$("#wall li").forEach(function(li){if(li.dataset.messageId===messageId)li.remove()});wallIds.delete(messageId);S.message=null;consent.checked=false;setAvatar(null);setMsg(T("已撤回，留言和头像已从留言墙移除。","Withdrawn. The message and avatar have been removed from the wall."));loadWall(true)},
     function(e){setMsg(errText(e),true)}).then(function(){b.disabled=false;renderMine()});
 });
-var wallNext=null;
-/* Avatar shown on the wall: the reviewed image if there is one, otherwise the first character of the nickname. */
+var wallNext=null,wallGeneration=0,wallBusy=false,wallIds=new Set();
+/* Avatar shown on the wall: the uploaded image, otherwise the first character of the nickname. */
 function avatarEl(m){
   var el=document.createElement("span");el.className="av";
   function initial(){el.textContent=Array.from(String(m.nickname||"?").trim())[0]||"?"}
@@ -266,39 +272,50 @@ function avatarEl(m){
   return el;
 }
 /* Optional avatar: decoded and cropped to a 96 px square JPEG here in the browser; only that small file is sent. */
-var avatarData=null,avatarPick=0;   // avatarPick: each new selection (or removal) voids any decode still running
-function setAvatar(d){avatarPick++;avatarData=d;idem=null;var pv=$("#avPrev");pv.style.backgroundImage=d?"url(data:"+d.mime+";base64,"+d.data+")":"";pv.classList.toggle("has",!!d);$("#avClear").hidden=!d;if(!d)$("#avatar").value=""}
+var avatarData=null,avatarPick=0,avatarBusy=false;   // each selection/removal voids any decode still running
+function setAvatar(d){avatarPick++;avatarBusy=false;avatarData=d;idem=null;var pv=$("#avPrev");pv.style.backgroundImage=d?"url(data:"+d.mime+";base64,"+d.data+")":"";pv.classList.toggle("has",!!d);$("#avClear").hidden=!d;if(!d)$("#avatar").value="";renderMine()}
 $("#avClear").addEventListener("click",function(){setAvatar(null)});
 $("#avatar").addEventListener("change",function(){
   var f=this.files&&this.files[0];if(!f)return;
   if(!/^image\/(jpeg|png|webp)$/.test(f.type)||f.size>12*1024*1024){setAvatar(null);setMsg(T("请选择 JPG、PNG 或 WebP 图片。","Please choose a JPG, PNG or WebP image."),true);return}
+  avatarData=null;avatarBusy=true;idem=null;renderMine();
   var url=URL.createObjectURL(f),img=new Image(),pick=++avatarPick;
   img.onerror=function(){URL.revokeObjectURL(url);if(pick!==avatarPick)return;setAvatar(null);setMsg(T("这张图片读不出来，请换一张。","This image could not be read. Please try another."),true)};
   img.onload=function(){
     if(pick!==avatarPick){URL.revokeObjectURL(url);return}
+    try{
     var c=document.createElement("canvas"),x=c.getContext("2d"),side=Math.min(img.naturalWidth,img.naturalHeight);c.width=c.height=96;
+    if(!x||!side)throw new Error("avatar_canvas_unavailable");
     x.fillStyle="#fff";x.fillRect(0,0,96,96);x.drawImage(img,(img.naturalWidth-side)/2,(img.naturalHeight-side)/2,side,side,0,0,96,96);URL.revokeObjectURL(url);
     var qs=[0.85,0.7,0.55,0.4],b64="";
     for(var k=0;k<qs.length;k++){b64=c.toDataURL("image/jpeg",qs[k]).split(",")[1]||"";if(b64.length*0.75<=22000)break}
     if(!b64||b64.length*0.75>22000){setAvatar(null);setMsg(T("头像压缩后仍然太大，请换一张。","The avatar is still too large after shrinking. Please try another."),true);return}
-    setAvatar({mime:"image/jpeg",data:b64});setMsg(T("头像已就绪，会随留言一起提交审核。","Avatar ready. It will be submitted for review with your message."));
+    setAvatar({mime:"image/jpeg",data:b64});setMsg(T("头像已就绪，会和留言一起发布。","Avatar ready. It will appear with your message."));
+    }catch(e){setAvatar(null);setMsg(T("头像处理失败，请换一张图片或直接发布文字。","The avatar could not be processed. Try another image or post without one."),true)}
+    finally{URL.revokeObjectURL(url)}
   };
   img.src=url;
 });
 function loadWall(reset){
   var ul=$("#wall"), msg=$("#wallMsg"), more=$("#wallMore");
-  if(reset){wallNext=null}
-  api("GET","/api/messages"+(wallNext?"?before="+encodeURIComponent(wallNext):"")).then(function(j){
-    if(reset)ul.textContent="";
+  if(wallBusy&&!reset)return;
+  var generation=++wallGeneration, cursor=reset?null:wallNext;
+  wallBusy=true;more.disabled=true;
+  return api("GET","/api/messages"+(cursor?"?before="+encodeURIComponent(cursor):"")).then(function(j){
+    if(generation!==wallGeneration)return;
+    if(reset){ul.textContent="";wallIds.clear()}
     j.messages.forEach(function(m){
+      if(wallIds.has(m.id))return;wallIds.add(m.id);
       var li=document.createElement("li"),p=document.createElement("p"),who=document.createElement("div"),s=document.createElement("span");
+      li.dataset.messageId=m.id;
       p.textContent=m.content;s.textContent=m.nickname;who.className="who";who.appendChild(avatarEl(m));who.appendChild(s);li.appendChild(p);li.appendChild(who);ul.appendChild(li);
     });
     wallNext=j.next;more.hidden=!j.next;msg.classList.remove("err");
-    msg.textContent=ul.children.length?"":T("还没有通过审核的留言。","No messages have been approved yet.");
-  },function(){more.hidden=true;msg.classList.add("err");msg.textContent=T("留言墙暂时读取不到。","The message wall could not be loaded right now.")});
+    msg.textContent=ul.children.length?"":T("第一段故事，等你来写。","Be the first to share your story.");
+  },function(){if(generation!==wallGeneration)return;msg.classList.add("err");msg.textContent=T("新留言暂时读取不到，请点击刷新重试。","New messages could not be loaded. Use Refresh to try again.")}).then(function(){if(generation===wallGeneration){wallBusy=false;more.disabled=false}});
 }
 $("#wallMore").addEventListener("click",function(){loadWall(false)});
+$("#wallRefresh").addEventListener("click",function(){loadWall(true)});
 
 /* ---------- timeline filter (rows are already in the HTML) ---------- */
 $("#tlFilter").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;var k=b.dataset.k;

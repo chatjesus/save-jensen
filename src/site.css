@@ -227,6 +227,16 @@ html:not(.js) .jsonly{display:none!important}
 .wall li p{margin:0 0 12px;white-space:pre-wrap;overflow-wrap:anywhere;color:#fff;font-size:15px;line-height:1.7}
 .wall li span{font-size:12.5px;color:var(--dm)}
 .wall h3{font-size:22px;color:#fff}
+.wall-heading{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.wall-heading .cta{margin:0;gap:8px}
+#support .wall{margin:0 0 60px;padding-top:0;border-top:0}
+.wall ul:empty{display:none}
+.wall .organizer-notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:20px;columns:auto}
+.wall .organizer-notes li{margin:0;background:linear-gradient(135deg,rgba(182,245,44,.07),transparent);display:flex;flex-direction:column}
+.wall .organizer-notes .who{margin-top:auto}
+.wall li .team-label{display:block;color:var(--lime,#b6f52c);font-size:11px;font-weight:700;letter-spacing:.08em;margin-bottom:14px;text-transform:uppercase}
+.wall .team-avatar{font-size:12px;font-weight:800;color:#b6f52c;border-color:#536327}
+#msgForm,#wallBox{scroll-margin-top:100px}
 
 
 /* --- loud slogan + motion --- */

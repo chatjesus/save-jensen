@@ -2,7 +2,7 @@
 
 [Website](https://savejensen.ai/) · [中文](README.zh-CN.md) · [Give back](https://savejensen.ai/#give)
 
-An open-source supporters community for Jensen Huang and the people building AI. A public-benefit project with a source-linked timeline, a content library, repeatable cheers, moderated stories, an open letter and a Discord community.
+An open-source supporters community for Jensen Huang and the people building AI. A public-benefit project with a source-linked timeline, a content library, repeatable cheers, community stories, an open letter and a Discord community.
 
 ## Run locally
 
@@ -43,7 +43,8 @@ Save Jensen is a community project, not a registered charity. Its public-benefit
 
 - Support energy counts repeated user actions, including explicit +10 cheers and +1,000 boosts. It is not a count of people or signatures.
 - Sharing counts button presses, not completed posts, impressions or unique people.
-- Messages and optional avatars enter moderation before public display; authors can withdraw them using the same device credential. Without that credential, self-service withdrawal is unavailable.
+- Messages are published immediately after basic automatic text checks. Avatars are checked for file format, size and dimensions, not image content. Administrators can hide inappropriate messages; respectful disagreement is allowed. Authors can withdraw messages and avatars using the same device credential. Without that credential, self-service withdrawal is unavailable.
+- Organizer notes are clearly labeled, maintained in the source and kept separate from visitor message records. Public nicknames are self-chosen; reserved organizer names cannot be used through the public form.
 - An HttpOnly device cookie authorizes device actions. The backend stores credential hashes and short-lived salted IP hashes for abuse prevention. It does not store raw IP addresses in the application database. Infrastructure providers may maintain their own logs.
 - User content and production state are not part of this source release. Email subscriptions, account login and a formal petition are not implemented.
 - The third-party market widget is display-only. Cheers do not affect stock prices.
