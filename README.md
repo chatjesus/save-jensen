@@ -31,7 +31,7 @@ The build emits only `server/public/`, including prerendered HTML, metadata, JSO
 
 Do not point a fork at the live Save Jensen database. No live data, credentials, account IDs, database IDs, sender contact details or deployment receipts are included.
 
-For an existing deployment, apply migration `0004_super_boost.sql` before deploying the new Worker. It preserves prior energy, device epochs and retry keys while raising the energy batch limit. Share batches remain capped at 50.
+For an existing deployment, apply all pending migrations before deploying the new Worker. Migration `0005_leaderboard.sql` adds opt-in profiles and an index for daily energy; it does not alter existing totals or automatically enroll anyone. Earlier migration `0004_super_boost.sql` preserves energy, device epochs and retry keys while raising the energy batch limit. Share batches remain capped at 50.
 
 ## Giving back
 
@@ -42,6 +42,8 @@ Save Jensen is a community project, not a registered charity. Its public-benefit
 ## Interaction and privacy
 
 - Support energy counts repeated user actions, including explicit +10 cheers and +1,000 boosts. It is not a count of people or signatures.
+- The leaderboard is optional and works without login: enter a nickname and consent to public display. All-time and UTC daily boards show the top 20 plus your own rank and gap to the next higher score. Existing energy counts after joining; leaving keeps energy private, while withdrawing energy removes its score. Ties share a rank. Avatars reuse only a public message avatar belonging to the same device. Administrators can hide profiles and find them by nickname or public ID.
+- Device credentials are not verified people, and rate limits do not prove human participation. The leaderboard has no prizes. Losing the device cookie prevents self-service profile changes and withdrawal; energy cannot be transferred across devices.
 - Sharing counts button presses, not completed posts, impressions or unique people.
 - Messages are published immediately after basic automatic text checks. Avatars are checked for file format, size and dimensions, not image content. Administrators can hide inappropriate messages; respectful disagreement is allowed. Authors can withdraw messages and avatars using the same device credential. Without that credential, self-service withdrawal is unavailable.
 - Organizer notes are clearly labeled, maintained in the source and kept separate from visitor message records. Public nicknames are self-chosen; reserved organizer names cannot be used through the public form.

@@ -12,7 +12,7 @@
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok) { var e = new Error(j.error || "http_" + r.status); e.code = j.error; throw e; } return j; }); });
   }
   function fail(e) { say(ERR[e.code] || "请求失败，未做任何更改。", true); if (e.code === "unauthorized") lock(); }
-  function lock() { token = ""; $("#panel").hidden = true; $("#auth").hidden = false; $("#list").textContent = ""; }
+  function lock() { token = ""; $("#panel").hidden = true; $("#auth").hidden = false; $("#list").textContent = ""; $("#profiles").textContent=""; }
 
   function load() {
     say("正在读取…");
@@ -45,6 +45,10 @@
     }, fail);
   }
 
+  function loadProfiles(){
+    return call("GET","/api/admin/leaderboard?q="+encodeURIComponent($("#profileQuery").value.trim())).then(function(j){var ul=$("#profiles");ul.textContent="";j.profiles.forEach(function(p){var li=document.createElement("li"),name=document.createElement("strong"),b=document.createElement("button");name.textContent=p.nickname+(p.hidden?" · 已隐藏":p.enabled?" · 已公开":" · 已退出");b.className="btn sm";b.type="button";b.textContent=p.hidden?"恢复上榜":"隐藏资料";b.addEventListener("click",function(){b.disabled=true;call("POST","/api/admin/leaderboard/"+p.id+"/"+(p.hidden?"restore":"hide")).then(loadProfiles,function(e){b.disabled=false;fail(e)})});li.appendChild(name);li.appendChild(b);ul.appendChild(li)});if(!j.profiles.length)say("暂无主动上榜资料。")},fail);
+  }
+  $("#loadProfiles").addEventListener("click",loadProfiles);
   $("#auth").addEventListener("submit", function (ev) { ev.preventDefault(); token = $("#tok").value.trim(); $("#tok").value = ""; if (token) load(); });
   $("#tabs").addEventListener("click", function (e) {
     var b = e.target.closest("[data-s]"); if (!b) return; status = b.dataset.s;

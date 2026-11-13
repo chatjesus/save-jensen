@@ -199,6 +199,36 @@ async function deviceMessage(env, hash) {
   ).bind(hash).first());
 }
 
+/* ---------------- opt-in energy leaderboard ---------------- */
+const profileView = (p) => p ? { id: p.id, nickname: p.nickname, enabled: !!p.public_enabled, hidden: !!p.admin_hidden, version: Number(p.version) } : null;
+async function leaderboardProfile(env, hash) {
+  return hash ? await env.DB.prepare("SELECT id, nickname, public_enabled, admin_hidden, version FROM leaderboard_profiles WHERE device_hash = ?").bind(hash).first() : null;
+}
+async function leaderboard(env, hash, period) {
+  const t = now(), start = Math.floor(t / 86400000) * 86400000, end = start + 86400000;
+  const score = period === "today" ? "COALESCE((SELECT SUM(b.delta) FROM cheer_batches b WHERE b.device_hash=p.device_hash AND b.epoch=c.epoch AND b.created_at>=? AND b.created_at<?),0)" : "c.total";
+  const sql = `WITH scores AS (
+    SELECT p.id,p.device_hash,p.nickname,p.joined_at,${score} AS score
+    FROM leaderboard_profiles p JOIN cheers c ON c.device_hash=p.device_hash
+    WHERE p.public_enabled=1 AND p.admin_hidden=0 AND c.total>0
+  ), levels AS (
+    SELECT score,LAG(score) OVER (ORDER BY score DESC) AS above FROM scores WHERE score>0 GROUP BY score
+  ), ranked AS (
+    SELECT *,RANK() OVER (ORDER BY score DESC) AS rank,
+      ROW_NUMBER() OVER (ORDER BY score DESC,joined_at,id) AS position FROM scores WHERE score>0
+  ) SELECT r.*,l.above,
+    (SELECT m.id FROM messages m JOIN message_avatars a ON a.message_id=m.id WHERE m.device_hash=r.device_hash AND m.status='approved' LIMIT 1) AS avatar_id
+    FROM ranked r JOIN levels l ON l.score=r.score WHERE r.position<=20 OR r.device_hash=? ORDER BY r.position`;
+  const args = period === "today" ? [start, end, hash || ""] : [hash || ""];
+  const { results } = await env.DB.prepare(sql).bind(...args).all();
+  const view = r => ({ id: r.id, nickname: r.nickname, energy: Number(r.score), rank: Number(r.rank), avatarId: r.avatar_id || null,
+    toNext: r.above == null ? null : Math.ceil((Number(r.above)-Number(r.score)+1)/10)*10 });
+  const mine = results.find(r => r.device_hash === hash);
+  return { period, day: new Date(start).toISOString().slice(0,10), resetsAt: end,
+    entries: results.filter(r => Number(r.position)<=20).map(view), mine: mine ? view(mine) : null,
+    profile: profileView(await leaderboardProfile(env, hash)) };
+}
+
 /* ---------------- text validation and automatic screening ---------------- */
 
 const cpLen = (s) => Array.from(s).length;
@@ -313,6 +343,45 @@ async function api(request, env, url) {
     const fresh = !!d.setCookie;
     const supported = fresh ? false : !!(await env.DB.prepare("SELECT 1 AS x FROM supports WHERE device_hash = ? AND withdrawn_at IS NULL").bind(d.hash).first());
     return json({ supportCount: await supportCount(env), supported, message: fresh ? null : await deviceMessage(env, d.hash), cheers: await cheerState(env, fresh ? null : d.hash), shares: await shareCount(env) }, 200, fresh ? { "Set-Cookie": d.setCookie } : undefined);
+  }
+
+  if (path === "/api/leaderboard" && method === "GET") {
+    const period = url.searchParams.get("period") || "all";
+    if (!["all", "today"].includes(period)) throw new HttpError(400, "invalid_period");
+    const d = await readDevice(request);
+    return json(await leaderboard(env, d ? d.hash : null, period));
+  }
+  if (path === "/api/leaderboard/profile" && method === "PUT") {
+    const d = await requireDevice(request);
+    await rateLimit(request, env, "leaderboard_profile", 20, 3600);
+    const body = await readJson(request);
+    if (body.consentPublic !== true) throw new HttpError(400, "consent_required");
+    const nickname = cleanLine(body.nickname || "");
+    if (cpLen(nickname)<2 || cpLen(nickname)>32) throw new HttpError(422, "invalid_nickname");
+    const blocked = screen(nickname, "");
+    if (blocked) throw new HttpError(422, blocked);
+    const v = body.expectedVersion;
+    if (!Number.isSafeInteger(v) || v<0) throw new HttpError(400, "invalid_version");
+    const t = now();
+    const res = await env.DB.prepare(`INSERT INTO leaderboard_profiles
+      (device_hash,id,nickname,public_enabled,version,joined_at,updated_at)
+      SELECT ?,?,?,1,1,?,? WHERE ?=0 OR EXISTS(SELECT 1 FROM leaderboard_profiles WHERE device_hash=?)
+      ON CONFLICT(device_hash) DO UPDATE SET nickname=excluded.nickname,public_enabled=1,
+        version=leaderboard_profiles.version+1,updated_at=excluded.updated_at
+      WHERE leaderboard_profiles.version=? AND leaderboard_profiles.admin_hidden=0`
+    ).bind(d.hash,crypto.randomUUID(),nickname,t,t,v,d.hash,v).run();
+    const p = await leaderboardProfile(env,d.hash);
+    if (!res.meta.changes) return json({ error: p && p.admin_hidden ? "profile_hidden" : "profile_changed", profile:profileView(p) },409);
+    return json({profile:profileView(p)});
+  }
+  if (path === "/api/leaderboard/profile" && method === "DELETE") {
+    const d = await requireDevice(request);
+    await rateLimit(request,env,"withdraw",60,3600);
+    const t=now();
+    await env.DB.prepare(`INSERT INTO leaderboard_profiles(device_hash,id,nickname,public_enabled,version,joined_at,updated_at)
+      VALUES(?,?,'',0,1,?,?) ON CONFLICT(device_hash) DO UPDATE SET public_enabled=0,
+      version=leaderboard_profiles.version+1,updated_at=excluded.updated_at`).bind(d.hash,crypto.randomUUID(),t,t).run();
+    return json({profile:profileView(await leaderboardProfile(env,d.hash))});
   }
 
   // ---- support energy: weighted actions, counted in bounded batches ----
@@ -489,6 +558,18 @@ async function requireAdmin(request, env) {
 async function admin(request, env, url, path) {
   await requireAdmin(request, env);
   const { method } = request;
+
+  if (path === "/api/admin/leaderboard" && method === "GET") {
+    const q=cleanLine(url.searchParams.get("q")||"").slice(0,64);
+    const {results}=await env.DB.prepare("SELECT id,nickname,public_enabled,admin_hidden,version FROM leaderboard_profiles WHERE (public_enabled=1 OR id=?) AND (?='' OR instr(lower(nickname),lower(?))>0 OR id=?) ORDER BY updated_at DESC LIMIT 100").bind(q,q,q,q).all();
+    return json({profiles:results.map(profileView)});
+  }
+  const lp=/^\/api\/admin\/leaderboard\/([0-9a-f-]{36})\/(hide|restore)$/.exec(path);
+  if (lp && method === "POST") {
+    const r=await env.DB.prepare("UPDATE leaderboard_profiles SET admin_hidden=?,version=version+1,updated_at=? WHERE id=?").bind(lp[2]==="hide"?1:0,now(),lp[1]).run();
+    if(!r.meta.changes)throw new HttpError(404,"not_found");
+    return json({ok:true});
+  }
 
   if (path === "/api/admin/messages" && method === "GET") {
     const status = url.searchParams.get("status") || "pending";

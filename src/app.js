@@ -44,6 +44,8 @@ var ERR={
   consent_required:["请先勾选同意公开展示。","Please tick the box to agree to public display."],
   invalid_nickname:["昵称需要 2–32 个字。","The nickname must be 2–32 characters."],
   reserved_nickname:["这个昵称留给站点团队使用，请换一个昵称。","That nickname is reserved for the site team. Please choose another."],
+  profile_changed:["上榜信息已改变，请重新确认后提交。","Your profile changed. Review it and submit again."],
+  profile_hidden:["此上榜资料已被隐藏，请联系站点团队。","This leaderboard profile is hidden. Please contact the site team."],
   invalid_content:["留言需要 1–280 个字。","The message must be 1–280 characters."],
   blocked_link:["留言里不能有链接或网址，请删掉后再提交。","Messages cannot contain links or web addresses. Please remove them and resubmit."],
   blocked_contact:["留言里不能有邮箱、电话或其他联系方式。","Messages cannot contain email addresses, phone numbers, or other contact details."],
@@ -141,7 +143,7 @@ function batcher(path,extra,apply,maxDelta){
   q.optimistic=function(){return q.pending+(q.flight?q.flight.delta:0)};
   return q;
 }
-var cheerQ=batcher("/api/cheer",function(){return {epoch:S.epoch}},function(j){if(j.cheers){S.total=j.cheers.total;S.mine=j.cheers.mine;S.epoch=j.cheers.epoch}},10000);
+var cheerQ=batcher("/api/cheer",function(){return {epoch:S.epoch}},function(j){if(j.cheers){S.total=j.cheers.total;S.mine=j.cheers.mine;S.epoch=j.cheers.epoch;scheduleLeaderboard()}},10000);
 var shareQ=batcher("/api/share",function(){return {}},function(j){if(typeof j.shares==="number")S.shares=j.shares},50);
 function renderCheer(){
   $$(".js-cheer").forEach(function(b){b.disabled=!S.ready||!!cheerQ.paused});
@@ -181,8 +183,8 @@ $$(".js-cheer").forEach(function(b){b.addEventListener("click",function(){
 $("#cheerUndo").addEventListener("click",function(){
   var b=this;b.disabled=true;
   cheerQ.reset();cheerQ.paused=true;renderCheer();            // no cheering until the withdraw has finished
-  mutate("DELETE","/api/cheer").then(function(j){rev++;S.total=j.cheers.total;S.mine=j.cheers.mine;S.epoch=j.cheers.epoch;S.err=false;S.note=T("已撤回这台设备的全部应援能量。","All support energy from this device has been withdrawn.")},
-    function(e){S.err=true;S.note=errText(e)+T(" 撤回没有完成。"," The withdraw did not complete.");return loadFresh()}).then(function(){b.disabled=false;cheerQ.resume();renderCheer()});
+  mutate("DELETE","/api/cheer").then(function(j){rev++;S.total=j.cheers.total;S.mine=j.cheers.mine;S.epoch=j.cheers.epoch;S.err=false;clearMyLeaderboardScore();S.note=T("已撤回这台设备的全部应援能量。","All support energy from this device has been withdrawn.")},
+    function(e){S.err=true;S.note=errText(e)+T(" 撤回没有完成。"," The withdraw did not complete.");return loadFresh()}).then(function(){b.disabled=false;cheerQ.resume();renderCheer();loadLeaderboard()});
 });
 /* after a failed withdraw we do not know the server's epoch any more: read it again before allowing new batches */
 function loadFresh(){return api("GET","/api/state").then(function(j){if(j.cheers){S.total=j.cheers.total;S.mine=j.cheers.mine;S.epoch=j.cheers.epoch}},function(){})}
@@ -214,6 +216,64 @@ function doShare(){
   if(!S.ready)toast(T("分享已打开，但计数服务不可用，这次点击没有被记录。","Sharing opened, but the counter is unavailable, so this click was not recorded."));
 }
 $$(".js-share").forEach(function(b){b.addEventListener("click",doShare)});
+
+/* ---------- opt-in leaderboard: only server-confirmed scores ---------- */
+var LB={period:"all",generation:0,loaded:false,mutating:false,profile:null,mine:null,entries:[],ranks:{},timer:null,editing:false};
+function clearMyLeaderboardScore(){var id=LB.profile&&LB.profile.id;LB.generation++;LB.mine=null;LB.entries=LB.entries.filter(function(e){return e.id!==id});LB.ranks={};renderLeaderboard()}
+function lbStatus(t,bad){var el=$("#lbActionState");el.textContent=t;el.classList.toggle("err",!!bad)}
+function renderLeaderboard(){
+  var p=LB.profile,joined=!!(p&&p.enabled&&!p.hidden),mine=LB.mine;
+  $("#lbLeave").hidden=!(p&&p.enabled);$("#lbLeave").disabled=LB.mutating;
+  $("#lbEdit").hidden=!joined;$("#lbEdit").disabled=LB.mutating;
+  $("#lbForm").hidden=!!(p&&p.hidden)||(joined&&!LB.editing);
+  $("#lbJoin").disabled=!S.ready||!LB.loaded||LB.mutating;
+  $("#lbNick").disabled=LB.mutating;$("#lbConsent").disabled=LB.mutating;
+  $("#lbJoin").textContent=joined?T("保存昵称","Save name"):T("加入排行榜","Claim your place");
+  $("#lbProfileName").textContent=joined?p.nickname:p&&p.hidden?T("此资料未公开展示。","This profile is not public."):"";
+  $("#lbMyRank").textContent=mine?"#"+fmt(mine.rank):"—";
+  $("#lbMyScore").textContent=mine?fmt(mine.energy)+T(" 应援能量"," energy"):"";
+  $("#lbGap").textContent=!LB.loaded?T("正在读取你的席位…","Loading your place…"):!joined?T("让每一份支持，都有你的名字。","Put your name to the support you give."):!mine?T("在这个周期贡献能量，即可入榜。","Add energy in this period to enter the board."):mine.toNext!==null?T("再加 "+fmt(mine.toNext)+" 能量，就能超越上一名。","Add "+fmt(mine.toNext)+" energy to overtake the next rank."):T("你已在榜首，继续点亮这份支持。","You’re at the top. Keep the energy going.");
+  var ul=$("#lbList");ul.textContent="";
+  LB.entries.forEach(function(e){
+    var li=document.createElement("li"),rank=document.createElement("span"),name=document.createElement("span"),score=document.createElement("strong");
+    li.dataset.id=e.id;li.dataset.top=e.rank<=3?"true":"false";rank.className="lb-number";rank.textContent=String(e.rank).padStart(2,"0");
+    name.className="lb-name";name.textContent=e.nickname;score.className="lb-score";score.textContent=fmt(e.energy);
+    if(joined&&e.id===p.id){li.classList.add("is-mine");var you=document.createElement("span");you.className="lb-you";you.textContent=T("你","YOU");name.appendChild(you)}
+    li.appendChild(rank);li.appendChild(avatarEl({id:e.avatarId,nickname:e.nickname,avatar:!!e.avatarId}));li.appendChild(name);li.appendChild(score);ul.appendChild(li);
+  });
+  $("#lbEmpty").hidden=!LB.loaded||LB.entries.length>0;
+}
+function loadLeaderboard(celebrate){
+  if(LB.mutating)return Promise.resolve();
+  var generation=++LB.generation,period=LB.period;
+  $("#lbRefresh").disabled=true;
+  return api("GET","/api/leaderboard?period="+period).then(function(j){
+    if(generation!==LB.generation||period!==LB.period)return;
+    var old=LB.ranks[period];LB.profile=j.profile;LB.mine=j.mine;LB.entries=j.entries;LB.loaded=true;
+    LB.ranks[period]=j.mine?j.mine.rank:null;
+    if(!$("#lbNick").value){$("#lbNick").value=(j.profile&&j.profile.nickname)||(S.message&&S.message.nickname)||""}
+    renderLeaderboard();$("#lbState").classList.remove("err");$("#lbState").textContent=period==="today"?j.day+T(" · UTC 今日榜"," · Today in UTC"):T("累计榜 · 服务器确认的应援能量","All time · Server-confirmed energy");
+    if(celebrate&&j.mine&&old!=null&&j.mine.rank<old){toast(T("上升至第 "+j.mine.rank+" 名！","You climbed to #"+j.mine.rank+"!"));if(!still)replay($("#lbMyRank"),"lb-climb")}
+  },function(){if(generation!==LB.generation)return;$("#lbState").classList.add("err");$("#lbState").textContent=T("榜单暂时读取不到，点击刷新重试。","The leaderboard is unavailable. Refresh to retry.")}).then(function(){if(generation===LB.generation)$("#lbRefresh").disabled=false});
+}
+function scheduleLeaderboard(){
+  if(!LB.timer)LB.timer=setTimeout(function(){LB.timer=null;loadLeaderboard(true)},900);
+}
+$("#lbRefresh").addEventListener("click",function(){loadLeaderboard()});
+$("#lbTabs").addEventListener("click",function(e){var b=e.target.closest("[data-period]");if(!b||LB.mutating||b.dataset.period===LB.period)return;LB.period=b.dataset.period;LB.entries=[];LB.mine=null;LB.loaded=false;renderLeaderboard();$$("#lbTabs [data-period]").forEach(function(x){x.setAttribute("aria-pressed",x===b)});$("#lbState").textContent=T("正在读取排行榜…","Loading the leaderboard…");loadLeaderboard()});
+$("#lbEdit").addEventListener("click",function(){LB.editing=true;$("#lbConsent").checked=false;renderLeaderboard();$("#lbNick").focus()});
+$("#lbForm").addEventListener("submit",function(e){
+  e.preventDefault();if(LB.mutating||!LB.loaded)return;
+  var name=$("#lbNick").value.trim();if(Array.from(name).length<2||Array.from(name).length>32){lbStatus(errText({code:"invalid_nickname"}),true);return}
+  if(!$("#lbConsent").checked){lbStatus(errText({code:"consent_required"}),true);return}
+  LB.mutating=true;LB.generation++;renderLeaderboard();lbStatus(T("正在加入…","Saving your place…"));
+  mutate("PUT","/api/leaderboard/profile",{nickname:name,consentPublic:true,expectedVersion:LB.profile?LB.profile.version:0}).then(function(j){LB.profile=j.profile;LB.editing=false;$("#lbConsent").checked=false;lbStatus(T("已加入排行榜，你已保存的贡献会一并计入。","You’re on the leaderboard. Your saved energy comes with you."))},function(e){if(e.data&&e.data.profile)LB.profile=e.data.profile;lbStatus(errText(e),true)}).then(function(){LB.mutating=false;renderLeaderboard();loadLeaderboard()});
+});
+$("#lbLeave").addEventListener("click",function(){
+  if(LB.mutating)return;LB.mutating=true;LB.generation++;renderLeaderboard();lbStatus(T("正在退出…","Leaving the leaderboard…"));
+  mutate("DELETE","/api/leaderboard/profile").then(function(j){var id=LB.profile&&LB.profile.id;LB.profile=j.profile;LB.mine=null;LB.entries=LB.entries.filter(function(e){return e.id!==id});LB.editing=false;LB.ranks={};$("#lbConsent").checked=false;lbStatus(T("已退出排行榜，应援能量仍然保留。","You’ve left the leaderboard. Your support energy is kept."))},function(e){lbStatus(errText(e),true)}).then(function(){LB.mutating=false;renderLeaderboard();loadLeaderboard()});
+});
+setInterval(function(){if(document.hidden||!S.ready||LB.mutating)return;var r=$("#leaderboard").getBoundingClientRect();if(r.top<innerHeight&&r.bottom>0)loadLeaderboard()},12000);
 
 /* ---------- my message + wall ---------- */
 var nick=$("#nick"), story=$("#story"), consent=$("#consent"), cv=$("#card"), DR="sj_story_draft_v2", idem=null;
@@ -252,7 +312,7 @@ $("#msgForm").addEventListener("submit",function(ev){
     if(S.message&&S.message.status==="approved")setMsg(T("已发布！你的留言已加入留言墙。","Published! Your message is now on the wall."));
     else if(S.message&&S.message.status==="withdrawn"){S.message=null;setMsg(T("这条留言已撤回，未重新发布。","This message was withdrawn and has not been republished."))}
     else setMsg(T("这条留言当前未公开展示。","This message is not currently public."));
-    loadWall(true);
+    loadWall(true);loadLeaderboard();
   },function(e){
     if(e.code==="already_exists"&&e.data&&e.data.message)S.message=e.data.message;
     setMsg(errText(e),true);
@@ -260,7 +320,7 @@ $("#msgForm").addEventListener("submit",function(ev){
 });
 $("#msgWithdraw").addEventListener("click",function(){
   var b=this,messageId=S.message&&S.message.id;b.disabled=true;setMsg(T("正在撤回…","Withdrawing…"));
-  mutate("DELETE","/api/messages/mine").then(function(){wallGeneration++;$$("#wall li").forEach(function(li){if(li.dataset.messageId===messageId)li.remove()});wallIds.delete(messageId);S.message=null;consent.checked=false;setAvatar(null);setMsg(T("已撤回，留言和头像已从留言墙移除。","Withdrawn. The message and avatar have been removed from the wall."));loadWall(true)},
+  mutate("DELETE","/api/messages/mine").then(function(){wallGeneration++;$$("#wall li").forEach(function(li){if(li.dataset.messageId===messageId)li.remove()});wallIds.delete(messageId);S.message=null;consent.checked=false;setAvatar(null);setMsg(T("已撤回，留言和头像已从留言墙移除。","Withdrawn. The message and avatar have been removed from the wall."));loadWall(true);loadLeaderboard()},
     function(e){setMsg(errText(e),true)}).then(function(){b.disabled=false;renderMine()});
 });
 var wallNext=null,wallGeneration=0,wallBusy=false,wallIds=new Set();
@@ -491,7 +551,7 @@ setInterval(renderLive,1000);
 
 /* ---------- init ---------- */
 renderLive();renderHub();renderLetter();cardNote(draw());renderCheer();renderMine();
-ensureState();loadWall(true);
+ensureState().then(function(){loadLeaderboard()});loadWall(true);
 function onS(){hd.classList.toggle("scrolled",window.scrollY>8)}window.addEventListener("scroll",onS,{passive:true});onS();
 if("IntersectionObserver" in window&&!matchMedia("(prefers-reduced-motion:reduce)").matches){
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{rootMargin:"0px 0px -8% 0px"});

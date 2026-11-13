@@ -15,7 +15,7 @@ const port = Number(process.argv[2] || 8787);
 const TYPES = { ".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".json": "application/json", ".jpg": "image/jpeg", ".png": "image/png", ".xml": "application/xml", ".txt": "text/plain; charset=utf-8" };
 
 const db = new DatabaseSync(":memory:");
-for (const m of ["0001_init.sql", "0002_cheers.sql", "0003_avatars.sql", "0004_super_boost.sql"]) db.exec(readFileSync(path.join(here, "migrations", m), "utf8"));
+for (const m of ["0001_init.sql", "0002_cheers.sql", "0003_avatars.sql", "0004_super_boost.sql", "0005_leaderboard.sql"]) db.exec(readFileSync(path.join(here, "migrations", m), "utf8"));
 const DB = { async batch(stmts) { db.exec("BEGIN"); try { const out = []; for (const s of stmts) out.push(await s.run()); db.exec("COMMIT"); return out; } catch (e) { db.exec("ROLLBACK"); throw e; } }, prepare(sql) { const st = db.prepare(sql); return { bind: (...a) => ({ first: async () => st.get(...a) ?? null, all: async () => ({ results: st.all(...a) }), run: async () => ({ meta: { changes: Number(st.run(...a).changes) } }) }) }; } };
 
 const ASSETS = {

@@ -11,7 +11,7 @@ const ADMIN = "test-admin-token";
 
 function makeEnv() {
   const db = new DatabaseSync(":memory:");
-  for (const m of ["0001_init.sql", "0002_cheers.sql", "0003_avatars.sql", "0004_super_boost.sql"]) db.exec(readFileSync(new URL("../migrations/" + m, import.meta.url), "utf8"));
+  for (const m of ["0001_init.sql", "0002_cheers.sql", "0003_avatars.sql", "0004_super_boost.sql", "0005_leaderboard.sql"]) db.exec(readFileSync(new URL("../migrations/" + m, import.meta.url), "utf8"));
   const DB = {
     async batch(stmts) { db.exec("BEGIN"); try { const out = []; for (const s of stmts) out.push(await s.run()); db.exec("COMMIT"); return out; } catch (e) { db.exec("ROLLBACK"); throw e; } },
     prepare(sql) {
@@ -557,4 +557,103 @@ test("HEAD uses the same one-hop locale redirect; explicit language wins on all 
   }
   for (const path of ["/", "/zh/"]) assert.equal((await get("GET", path)).status, 200);
   assert.notEqual((await get("POST", "/en/", { body: {} })).status, 301);
+});
+
+const joinBoard = (nickname, expectedVersion=0) => ({ nickname, consentPublic:true, expectedVersion });
+const boost = (delta,key='board-boost-001',epoch=0) => ({delta,idempotencyKey:key,epoch});
+test('leaderboard: opt-in, private identifiers, consent, late join after leaving, energy stays intact',async()=>{
+ const env=makeEnv(),a=client(env),anon=client(env,'203.0.113.2');
+ assert.equal((await anon('PUT','/api/leaderboard/profile',{body:joinBoard('Anon'),noInit:true})).status,428);
+ await a('POST','/api/cheer',{body:boost(1000)});
+ assert.deepEqual((await anon('GET','/api/leaderboard')).data.entries,[]);
+ assert.equal((await a('PUT','/api/leaderboard/profile',{body:{...joinBoard('Ada'),consentPublic:false}})).status,400);
+ assert.equal((await a('PUT','/api/leaderboard/profile',{body:joinBoard('Save Jensen Team')})).data.error,'reserved_nickname');
+ let j=await a('PUT','/api/leaderboard/profile',{body:joinBoard('Ada')});assert.equal(j.status,200);assert.equal(j.data.profile.version,1);
+ let board=(await a('GET','/api/leaderboard')).data;assert.equal(board.mine.rank,1);assert.equal(board.entries[0].energy,1000);
+ let pub=(await anon('GET','/api/leaderboard')).data;assert.equal(pub.mine,null);assert.equal(pub.profile,null);
+ assert.equal(/device_hash|idem_key|sj_device/.test(JSON.stringify(pub)),false);
+ await a('DELETE','/api/leaderboard/profile');
+ assert.equal((await a('PUT','/api/leaderboard/profile',{body:joinBoard('Ada')})).status,409);
+ board=(await a('GET','/api/leaderboard')).data;assert.equal(board.profile.enabled,false);assert.equal(board.entries.length,0);
+ assert.equal((await a('GET','/api/state')).data.cheers.mine,1000);
+ j=await a('PUT','/api/leaderboard/profile',{body:joinBoard('Ada',board.profile.version)});assert.equal(j.status,200);
+ assert.equal((await a('GET','/api/leaderboard')).data.entries.length,1);
+ assert.equal((await a('GET','/api/leaderboard')).data.mine.energy,1000);
+ // A leave arriving before the very first join also leaves a version tombstone.
+ await anon('DELETE','/api/leaderboard/profile');
+ assert.equal((await anon('PUT','/api/leaderboard/profile',{body:joinBoard('Another')})).status,409);
+});
+
+test('leaderboard: UTC boundary, cross-day retry, withdrawal epochs, zero score and new contribution',async()=>{
+ const oldNow=Date.now;let t=Date.UTC(2026,10,13)-1;Date.now=()=>t;
+ try{
+ const env=makeEnv(),a=client(env);
+ await a('PUT','/api/leaderboard/profile',{body:joinBoard('Builder')});
+ await a('POST','/api/cheer',{body:boost(1000)});
+ assert.equal((await a('GET','/api/leaderboard?period=today')).data.mine.energy,1000);
+ t++;
+ assert.equal((await a('GET','/api/leaderboard?period=today')).data.mine,null);
+ assert.equal((await a('GET','/api/leaderboard?period=today')).data.day,'2026-11-13');
+ await a('POST','/api/cheer',{body:boost(1000)});
+ assert.equal((await a('GET','/api/leaderboard?period=today')).data.mine,null);
+ await a('POST','/api/cheer',{body:boost(10,'board-newday-001')});
+ assert.equal((await a('GET','/api/leaderboard?period=today')).data.mine.energy,10);
+ assert.equal((await a('GET','/api/leaderboard')).data.mine.energy,1010);
+ await a('DELETE','/api/cheer');
+ for(const q of ['','?period=today'])assert.equal((await a('GET','/api/leaderboard'+q)).data.mine,null);
+ assert.equal((await a('POST','/api/cheer',{body:boost(1000,'late-old-epoch')})).status,409);
+ await a('POST','/api/cheer',{body:boost(1000,'new-epoch-001',1)});
+ for(const q of ['','?period=today'])assert.equal((await a('GET','/api/leaderboard'+q)).data.mine.energy,1000);
+ }finally{Date.now=oldNow}
+});
+
+test('leaderboard: deterministic ties, bounded top 20, own rank outside top and gap',async()=>{
+ const env=makeEnv();let last;
+ for(let i=0;i<25;i++){
+  const a=client(env,'203.0.113.'+(i+1));
+  await a('PUT','/api/leaderboard/profile',{body:joinBoard('Builder '+i)});
+  const r=await a('POST','/api/cheer',{body:boost(i<2?1000:1000-i*10)});assert.equal(r.status,200);
+  last=a;
+ }
+ const board=(await last('GET','/api/leaderboard')).data;
+ assert.equal(board.entries.length,20);assert.equal(board.entries[0].rank,1);assert.equal(board.entries[1].rank,1);assert.equal(board.entries[2].rank,3);
+ assert.equal(board.mine.rank,25);assert.equal(board.mine.energy,760);assert.equal(board.mine.toNext,20);
+ assert.deepEqual((await last('GET','/api/leaderboard')).data.entries.map(e=>e.id),board.entries.map(e=>e.id));
+ assert.equal(board.entries.some(e=>e.id===board.mine.id),false);
+});
+
+test('leaderboard: administrator hiding cannot be self-overridden or expose another device',async()=>{
+ const env=makeEnv(),a=client(env),b=client(env,'203.0.113.2'),admin=client(env,'203.0.113.9');
+ await a('PUT','/api/leaderboard/profile',{body:joinBoard('Builder A')});await a('POST','/api/cheer',{body:boost(1000)});
+ const before=(await a('GET','/api/leaderboard')).data;
+ assert.equal((await admin('POST','/api/admin/leaderboard/'+before.profile.id+'/hide')).status,401);
+ assert.equal((await admin('POST','/api/admin/leaderboard/'+before.profile.id+'/hide',{token:ADMIN})).status,200);
+ const hidden=(await a('GET','/api/leaderboard')).data;assert.equal(hidden.mine,null);assert.equal(hidden.entries.length,0);
+ assert.equal((await a('PUT','/api/leaderboard/profile',{body:joinBoard('New name',hidden.profile.version)})).data.error,'profile_hidden');
+ await b('DELETE','/api/leaderboard/profile');
+ assert.equal((await a('GET','/api/leaderboard')).data.profile.hidden,true);
+ await a('DELETE','/api/leaderboard/profile');
+ const search=(await admin('GET','/api/admin/leaderboard?q='+before.profile.id,{token:ADMIN})).data.profiles;
+ assert.equal(search.length,1);assert.equal(search[0].enabled,false);assert.equal(search[0].hidden,true);
+ assert.equal((await admin('GET','/api/admin/leaderboard',{token:ADMIN})).data.profiles.length,0);
+ await admin('POST','/api/admin/leaderboard/'+before.profile.id+'/restore',{token:ADMIN});
+ assert.equal((await a('GET','/api/leaderboard')).data.entries.length,0,'admin restore respects user opt-out');
+ assert.equal((await a('GET','/api/state')).data.cheers.mine,1000);
+ assert.equal((await a('GET','/api/leaderboard?period=bad')).status,400);
+});
+
+test('leaderboard: avatar belongs to current device and disappears on message hide/withdraw',async()=>{
+ const env=makeEnv(),a=client(env),b=client(env,'203.0.113.2'),admin=client(env,'203.0.113.9');
+ const post=await a('POST','/api/messages',{body:msg({avatar:{mime:'image/jpeg',data:b64(fakeJpeg(96,96))}})});
+ assert.equal(post.status,201);
+ await a('PUT','/api/leaderboard/profile',{body:joinBoard('Avatar owner')});await a('POST','/api/cheer',{body:boost(1000)});
+ await b('PUT','/api/leaderboard/profile',{body:{...joinBoard('Other supporter'),avatarId:post.data.message.id}});await b('POST','/api/cheer',{body:boost(10)});
+ assert.equal((await a('GET','/api/leaderboard')).data.mine.avatarId,post.data.message.id);
+ assert.equal((await b('GET','/api/leaderboard')).data.mine.avatarId,null);
+ await admin('POST','/api/admin/messages/'+post.data.message.id+'/hide',{token:ADMIN});
+ assert.equal((await a('GET','/api/leaderboard')).data.mine.avatarId,null);
+ await admin('POST','/api/admin/messages/'+post.data.message.id+'/approve',{token:ADMIN});
+ await a('DELETE','/api/messages/mine');
+ assert.equal((await a('GET','/api/leaderboard')).data.mine.avatarId,null);
+ assert.equal((await a('GET','/api/leaderboard')).data.mine.energy,1000);
 });
