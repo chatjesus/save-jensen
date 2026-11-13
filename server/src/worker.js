@@ -311,7 +311,7 @@ async function api(request, env, url) {
     return json({ supportCount: await supportCount(env), supported, message: fresh ? null : await deviceMessage(env, d.hash), cheers: await cheerState(env, fresh ? null : d.hash), shares: await shareCount(env) }, 200, fresh ? { "Set-Cookie": d.setCookie } : undefined);
   }
 
-  // ---- cheers: repeatable clicks, counted in small batches ----
+  // ---- support energy: weighted actions, counted in bounded batches ----
   if (path === "/api/cheers" && method === "GET") {
     return json({ total: (await cheerState(env, null)).total, shares: await shareCount(env) });
   }
@@ -334,7 +334,7 @@ async function api(request, env, url) {
     await rateLimit(request, env, "cheer", 150, 60); // a real client sends at most ~2 batches a second
     const body = await readJson(request);
     const { delta, epoch, idempotencyKey: key } = body;
-    if (!Number.isInteger(delta) || delta < 1 || delta > 50) throw new HttpError(400, "invalid_delta");
+    if (!Number.isInteger(delta) || delta < 1 || delta > 10000) throw new HttpError(400, "invalid_delta");
     if (typeof key !== "string" || !/^[A-Za-z0-9-]{8,64}$/.test(key)) throw new HttpError(400, "invalid_key");
     if (!Number.isInteger(epoch) || epoch < 0) throw new HttpError(400, "invalid_epoch");
     // One atomic statement: the row is inserted only if the key is new AND the batch was created under the

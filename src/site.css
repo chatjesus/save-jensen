@@ -313,7 +313,7 @@ main{overflow-x:clip}
 @media(max-width:860px){.btn,.btn.sm,.chip,.hbtn{min-height:46px}summary,.res li a,.live li a{min-height:46px}}
 .boost{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .btn.big{min-height:58px;padding:0 28px;font-size:17px;border-radius:14px}
-.plus.ten{font-size:22px}
+.plus.super{font-size:22px}
 @media(max-width:860px){.boost{flex-basis:100%;display:grid;grid-template-columns:1.6fr 1fr;gap:12px}.boost .btn{width:100%;min-height:56px;padding:0 10px}}
 .retry{border-color:#ffb4a8!important;color:#ffb4a8!important}
 .combo{display:inline-block;margin-left:12px;font:800 15px/1 var(--sans);letter-spacing:.04em;color:var(--k);background:var(--g);padding:5px 9px;border-radius:6px;opacity:0;transform:scale(.8);transition:opacity .2s,transform .2s}
@@ -374,10 +374,10 @@ footer{padding-bottom:calc(120px + env(safe-area-inset-bottom))}
 :root{--i-jacket:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 3l4 3 4-3 5 3 1 7-3 1-1-4v11H6V10l-1 4-3-1 1-7z' fill='black'/%3E%3Cpath d='M12 6v15' stroke='white' stroke-width='1.200'/%3E%3C/svg%3E");--i-chip:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='7' y='7' width='10' height='10' rx='1.500' fill='black'/%3E%3Cpath d='M9.500 3v4M12 3v4M14.500 3v4M9.500 17v4M12 17v4M14.500 17v4M3 9.500h4M3 12h4M3 14.500h4M17 9.500h4M17 12h4M17 14.500h4'/%3E%3C/svg%3E")}
 /* --- Jensen motifs: the leather jacket and the GPU chip --- */
 .js-cheer .dot{--ic:var(--i-jacket);width:18px;height:18px}
-.js-cheer[data-n="10"] .dot{--ic:var(--i-chip)}
+.js-cheer[data-n="1000"] .dot{--ic:var(--i-chip)}
 #rally .kicker{--ic:var(--i-jacket)}nav#nav a[href="#rally"]{--ic:var(--i-jacket)}
 .plus{display:inline-flex;align-items:center;gap:5px;font-size:17px}
-.plus.ten{font-size:22px}
+.plus.super{font-size:22px}
 .pi{display:inline-block;width:1.15em;height:1.15em;background:var(--g);-webkit-mask:var(--ic) center/contain no-repeat;mask:var(--ic) center/contain no-repeat;filter:drop-shadow(0 0 6px rgba(182,242,46,.8))}
 .pi.jacket{--ic:var(--i-jacket)}.pi.chip{--ic:var(--i-chip)}
 /* particles: tiny chips flying off the die */

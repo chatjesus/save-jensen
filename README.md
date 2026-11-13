@@ -31,6 +31,8 @@ The build emits only `server/public/`, including prerendered HTML, metadata, JSO
 
 Do not point a fork at the live Save Jensen database. No live data, credentials, account IDs, database IDs, sender contact details or deployment receipts are included.
 
+For an existing deployment, apply migration `0004_super_boost.sql` before deploying the new Worker. It preserves prior energy, device epochs and retry keys while raising the energy batch limit. Share batches remain capped at 50.
+
 ## Giving back
 
 We link directly to official [NumFOCUS](https://numfocus.org/donate), [scikit-learn](https://numfocus.org/donate-to-scikit-learn) and [NumPy](https://numfocus.org/donate-to-numpy) donation pages. The latter two are project-specific pages operated by NumFOCUS. Save Jensen receives no donations or commissions and does not process payments. There are no donation totals to report. These links do not imply those organizations endorse or are affiliated with this campaign. Recipient terms and processing arrangements apply on their sites.
@@ -39,7 +41,7 @@ Save Jensen is a community project, not a registered charity. Its public-benefit
 
 ## Interaction and privacy
 
-- Support energy counts repeated user actions, including explicit +10 boosts. It is not a count of people or signatures.
+- Support energy counts repeated user actions, including explicit +10 cheers and +1,000 boosts. It is not a count of people or signatures.
 - Sharing counts button presses, not completed posts, impressions or unique people.
 - Messages and optional avatars enter moderation before public display; authors can withdraw them using the same device credential. Without that credential, self-service withdrawal is unavailable.
 - An HttpOnly device cookie authorizes device actions. The backend stores credential hashes and short-lived salted IP hashes for abuse prevention. It does not store raw IP addresses in the application database. Infrastructure providers may maintain their own logs.

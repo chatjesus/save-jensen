@@ -11,7 +11,7 @@ const ADMIN = "test-admin-token";
 
 function makeEnv() {
   const db = new DatabaseSync(":memory:");
-  for (const m of ["0001_init.sql", "0002_cheers.sql", "0003_avatars.sql"]) db.exec(readFileSync(new URL("../migrations/" + m, import.meta.url), "utf8"));
+  for (const m of ["0001_init.sql", "0002_cheers.sql", "0003_avatars.sql", "0004_super_boost.sql"]) db.exec(readFileSync(new URL("../migrations/" + m, import.meta.url), "utf8"));
   const DB = {
     async batch(stmts) { db.exec("BEGIN"); try { const out = []; for (const s of stmts) out.push(await s.run()); db.exec("COMMIT"); return out; } catch (e) { db.exec("ROLLBACK"); throw e; } },
     prepare(sql) {
@@ -288,7 +288,7 @@ test("cheers: repeatable, server-counted, idempotent batches, withdraw cannot be
 
   assert.equal((await cheer(a, 1, "k-aaaaaaa1", 0, { noInit: true })).status, 428, "needs the device credential first");
   await a("GET", "/api/state");
-  for (const bad of [0, -1, 51, 1.5, "3", null]) assert.equal((await cheer(a, bad, "k-bad00000")).data.error, "invalid_delta");
+  for (const bad of [0, -1, 10001, 1.5, "3", null]) assert.equal((await cheer(a, bad, "k-bad00000")).data.error, "invalid_delta");
   assert.equal((await a("POST", "/api/cheer", { body: { delta: 1, epoch: 0 } })).data.error, "invalid_key");
   assert.equal(counter(), 0);
 
@@ -309,6 +309,49 @@ test("cheers: repeatable, server-counted, idempotent batches, withdraw cannot be
   assert.equal(counter(), 3);
   assert.equal((await a("DELETE", "/api/cheer")).data.cheers.total, 3, "withdrawing twice does not subtract twice");
   assert.equal((await cheer(a, 2, "k-aaaaaaa3", 2)).data.cheers.total, 5, "can cheer again afterwards");
+});
+
+test("super boost migration preserves old batches, totals and withdrawn epochs", () => {
+  const db = new DatabaseSync(":memory:");
+  for (const m of ["0001_init.sql", "0002_cheers.sql", "0003_avatars.sql"]) db.exec(readFileSync(new URL("../migrations/" + m, import.meta.url), "utf8"));
+  db.exec("INSERT INTO cheer_batches VALUES ('active', 'old-active', 50, 0, 100); INSERT INTO cheer_batches VALUES ('withdrawn', 'old-withdrawn', 10, 0, 101)");
+  db.exec("UPDATE counters SET n = n - 10 WHERE name = 'cheers'; UPDATE cheers SET total = 0, epoch = 1 WHERE device_hash = 'withdrawn'");
+  const rows = () => db.prepare("SELECT * FROM cheer_batches ORDER BY device_hash").all();
+  const devices = () => db.prepare("SELECT * FROM cheers ORDER BY device_hash").all();
+  const before = { rows: rows(), devices: devices() };
+  db.exec("BEGIN");
+  db.exec(readFileSync(new URL("../migrations/0004_super_boost.sql", import.meta.url), "utf8"));
+  db.exec("COMMIT");
+  assert.deepEqual(rows(), before.rows);
+  assert.deepEqual(devices(), before.devices);
+  assert.equal(db.prepare("SELECT n FROM counters WHERE name='cheers'").get().n, 50, "copying history must not count it again");
+  db.exec("INSERT OR IGNORE INTO cheer_batches VALUES ('active', 'old-active', 50, 0, 100)");
+  db.exec("INSERT INTO cheer_batches VALUES ('active', 'new-boost', 1000, 0, 102)");
+  assert.equal(db.prepare("SELECT n FROM counters WHERE name='cheers'").get().n, 1050);
+  assert.equal(db.prepare("SELECT total FROM cheers WHERE device_hash='active'").get().total, 1050);
+  assert.throws(() => db.exec("INSERT INTO cheer_batches VALUES ('active', 'too-large', 10001, 0, 103)"), /CHECK/);
+  assert.throws(() => db.exec("INSERT INTO share_batches VALUES ('active', 'share-large', 51, 103)"), /CHECK/);
+  db.close();
+});
+
+test("+10 and +1000 energy: repeated boosts, lost reply, batch bound and withdrawal stay exact", async () => {
+  const env = makeEnv(), c = client(env);
+  const cheer = (delta, key, epoch = 0) => c("POST", "/api/cheer", { body: { delta, idempotencyKey: key, epoch } });
+  assert.equal((await cheer(10, "boost-000001")).data.cheers.total, 10);
+  assert.equal((await cheer(1000, "boost-000002")).data.cheers.total, 1010);
+  assert.equal((await cheer(1000, "boost-000002")).data.duplicate, true);
+  env.DB.fail = { match: "INTO cheer_batches", when: "after" };
+  assert.equal((await cheer(10000, "boost-000003")).status, 500);
+  const retry = await cheer(10000, "boost-000003");
+  assert.equal(retry.data.duplicate, true);
+  assert.equal(retry.data.cheers.total, 11010, "a lost reply does not count ten boosts twice");
+  assert.equal((await cheer(1000, "boost-000004")).data.cheers.total, 12010);
+  assert.equal((await cheer(10001, "boost-000005")).data.error, "invalid_delta");
+  const undone = await c("DELETE", "/api/cheer");
+  assert.deepEqual(undone.data.cheers, { total: 0, mine: 0, epoch: 1 });
+  assert.equal((await cheer(1000, "boost-000006", 0)).status, 409);
+  assert.equal((await cheer(1000, "boost-000002", 1)).data.duplicate, true);
+  assert.equal((await cheer(1000, "boost-000007", 1)).data.cheers.total, 1000);
 });
 
 test("share clicks: counted per press, retries not double counted, needs credential and valid delta", async () => {

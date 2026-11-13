@@ -78,10 +78,10 @@ function mutate(method,path,body){
   });
 }
 
-/* ---------- cheers and share clicks: repeatable, sent in small batches, shown only once the server confirms ---------- */
+/* ---------- repeatable energy and share clicks; optimistic tap feedback reconciled with server totals ---------- */
 var S={ready:false,total:null,mine:0,epoch:0,shares:null,message:null,note:"",err:false};
 function newKey(){var a=new Uint8Array(16);(window.crypto||window.msCrypto).getRandomValues(a);return [].map.call(a,function(b){return ("0"+b.toString(16)).slice(-2)}).join("")}
-/* Roll a displayed number toward a value the server has confirmed. It never moves on its own. */
+/* Roll toward server totals plus taps currently in flight. It never moves on its own. */
 var shown={},rolling={},settle={},still=matchMedia("(prefers-reduced-motion:reduce)").matches;
 function rollTo(key,sel,target){
   var els=$$(sel);
@@ -103,15 +103,15 @@ function rollTo(key,sel,target){
   })(t0);
 }
 function fmt(n){return n===null||n===undefined?"—":Number(n).toLocaleString(lang==="en"?"en-US":"zh-CN")}
-/* Collects taps for 500 ms, sends 1–50 per request with an idempotency key, and keeps a failed batch (same key) for retry. */
+/* Collects taps for 500 ms, caps each queue independently, and retries failed batches with the same key. */
 var rev=0;
-function batcher(path,extra,apply){
+function batcher(path,extra,apply,maxDelta){
   var q={pending:0,flight:null,failed:null,timer:null,retry:null,tries:0,gen:0,seq:0};
   function flush(){
     q.timer=null;
     if(q.flight||q.paused||(!q.pending&&!q.failed))return;
     var b=q.failed;
-    if(!b){b={delta:Math.min(q.pending,50),key:newKey(),extra:extra()};q.pending-=b.delta} // extra (e.g. epoch) is fixed when the batch is created
+    if(!b){b={delta:Math.min(q.pending,maxDelta),key:newKey(),extra:extra()};q.pending-=b.delta} // extra (e.g. epoch) is fixed when the batch is created
     q.failed=null;q.flight=b;q.seq++;rev++;renderCheer();
     var gen=q.gen,body={delta:b.delta,idempotencyKey:b.key};for(var k in b.extra)body[k]=b.extra[k];
     mutate("POST",path,body).then(function(j){
@@ -140,8 +140,8 @@ function batcher(path,extra,apply){
   q.optimistic=function(){return q.pending+(q.flight?q.flight.delta:0)};
   return q;
 }
-var cheerQ=batcher("/api/cheer",function(){return {epoch:S.epoch}},function(j){if(j.cheers){S.total=j.cheers.total;S.mine=j.cheers.mine;S.epoch=j.cheers.epoch}});
-var shareQ=batcher("/api/share",function(){return {}},function(j){if(typeof j.shares==="number")S.shares=j.shares});
+var cheerQ=batcher("/api/cheer",function(){return {epoch:S.epoch}},function(j){if(j.cheers){S.total=j.cheers.total;S.mine=j.cheers.mine;S.epoch=j.cheers.epoch}},10000);
+var shareQ=batcher("/api/share",function(){return {}},function(j){if(typeof j.shares==="number")S.shares=j.shares},50);
 function renderCheer(){
   $$(".js-cheer").forEach(function(b){b.disabled=!S.ready||!!cheerQ.paused});
   var total=S.total===null?null:S.total+cheerQ.optimistic(), mine=S.mine+cheerQ.optimistic();
@@ -153,7 +153,7 @@ function renderCheer(){
   $("#top").classList.toggle("lit",mine>0);
   $("#cheerUndo").hidden=!(S.mine>0);
   var st=$(".js-cheer-status");st.classList.toggle("err",!!S.err);
-  st.textContent=S.note||(!S.ready?T("正在连接服务器…","Connecting to the server…"):mine>0?T("这台设备已贡献 "+fmt(mine)+" 应援能量。","This device has contributed "+fmt(mine)+" support energy."):T("点“助力 +10”或“应援 +1”，都可以一直点。","Tap “Boost +10” or “Cheer +1” as often as you like."));
+  st.textContent=S.note||(!S.ready?T("正在连接服务器…","Connecting to the server…"):mine>0?T("这台设备已贡献 "+fmt(mine)+" 应援能量。","This device has contributed "+fmt(mine)+" support energy."):T("点“应援 +10”或“超级助力 +1,000”，都可以一直点。","Tap “Cheer +10” or “Boost +1,000” as often as you like."));
 }
 $("#cheerRetry").addEventListener("click",function(){S.err=false;S.note="";cheerQ.retryNow()});
 function replay(el,cls){el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls)}
@@ -165,8 +165,8 @@ function bumpCombo(){
 }
 function burst(b,n){
   if(still)return;
-  if(b.querySelectorAll(".plus").length<4){var p=document.createElement("span");p.className="plus"+(n===10?" ten":"");var ic=document.createElement("i");ic.className="pi "+(n===10?"chip":"jacket");p.appendChild(ic);p.appendChild(document.createTextNode("+"+n));p.setAttribute("aria-hidden","true");b.appendChild(p);p.addEventListener("animationend",function(){b.removeChild(p)})}
-  if(n!==10)return;
+  if(b.querySelectorAll(".plus").length<4){var p=document.createElement("span");p.className="plus"+(n===1000?" super":"");var ic=document.createElement("i");ic.className="pi "+(n===1000?"chip":"jacket");p.appendChild(ic);p.appendChild(document.createTextNode("+"+fmt(n)));p.setAttribute("aria-hidden","true");b.appendChild(p);p.addEventListener("animationend",function(){b.removeChild(p)})}
+  if(n!==1000)return;
   replay(b,"pulse");
   if(b.querySelectorAll(".spark").length>12)return;
   for(var k=0;k<6;k++){(function(k){var s=document.createElement("span");s.className="spark";s.setAttribute("aria-hidden","true");
@@ -174,7 +174,7 @@ function burst(b,n){
     b.appendChild(s);s.addEventListener("animationend",function(){b.removeChild(s)})})(k)}
 }
 $$(".js-cheer").forEach(function(b){b.addEventListener("click",function(){
-  if(!S.ready||cheerQ.paused)return;var n=b.dataset.n==="10"?10:1;
+  if(!S.ready||cheerQ.paused)return;var n=b.dataset.n==="1000"?1000:10;
   cheerQ.add(n);replay(b,"pop");burst(b,n);bumpCombo();
 })});
 $("#cheerUndo").addEventListener("click",function(){
