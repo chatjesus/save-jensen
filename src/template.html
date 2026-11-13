@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="{{HTML_LANG}}">
+<head>
+{{HEAD}}
+<script>
+document.documentElement.className="js";
+/* ===== 可替换配置：上线前只需改这里 ===== */
+window.SJ_CONFIG = {
+  siteUrl: "https://savejensen.ai",        // 主域名（分享、卡片、信件统一使用）
+  discordInvite: "https://discord.gg/3ENVKaWna",                       // 填入真实 https://discord.gg/xxxx 后，页面自动显示加入按钮
+  discordName: "Save Jensen | Builders & Fans",
+  apiBase: "",                             // 同源 API；本地静态预览时接口不可用，页面会如实显示
+  organizerContact: "",                    // 主办人公开联系方式（待配置，不虚构）
+  checkedAt: "2026-11-12（北京时间 UTC+8，人工核查）",
+  checkedAtEn: "Nov 12, 2026 (Beijing time, UTC+8, manually checked)",
+  // 下一场官方直播：财报电话会，2026-11-17 14:00 PT（11 月为 PST，UTC-8）
+  cheerGoal: 100000,                       // 应援目标（只是目标，进度按服务器确认的应援能量计算）
+  nextLive: { at: "2026-11-17T22:00:00Z", url: "https://investor.nvidia.com/" }
+};
+</script>
+</head>
+<body>
+<a class="skip" href="#main" data-en="Skip to content">跳到正文</a>
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="{{SELF_HREF}}"><i aria-hidden="true"></i>Save Jensen</a>
+    <span class="tag" data-en="Supporters community">支持者社区</span>
+    <nav id="nav" aria-label="主导航" data-en-label="Main">
+      <a href="#timeline" data-en="Timeline">时间线</a>
+      <a href="#hub" data-en="Library">内容中心</a>
+      <a href="#rally" data-en="Cheer">应援</a>
+      <a href="#support" data-en="Stories">留言</a>
+      <a href="#letter" data-en="Open letter">公开信</a>
+      <a href="#discord" data-en="Community">社区</a>
+      <a href="#give" data-en="Give back">公益</a>
+    </nav>
+    <span class="sp"></span>
+    <a class="hbtn" id="langBtn" href="{{ALT_HREF}}" hreflang="{{ALT_LANG}}" lang="{{ALT_LANG}}" aria-label="{{ALT_LABEL}}">{{ALT_TEXT}}</a>
+    <button class="hbtn" id="menuBtn" aria-expanded="false" aria-controls="nav" data-en="Menu">菜单</button>
+  </div>
+</header>
+
+<main id="main">
+<div id="top" class="hero">
+  <div class="hero-photo" id="art">
+    <img src="{{ROOT}}assets/jensen-sc18.jpg" width="1280" height="848" fetchpriority="high" alt="黄仁勋身穿黑色皮衣站在舞台上，手持一块加速卡（SC18，2018 年）" data-en-alt="Jensen Huang on stage in a black leather jacket, holding an accelerator card (SC18, 2018)">
+  </div>
+  <div class="wrap hero-in">
+    <p class="shout" aria-label="Save Jensen"><span aria-hidden="true"><i style="--i:0">S</i><i style="--i:1">A</i><i style="--i:2">V</i><i style="--i:3">E</i></span><span aria-hidden="true" class="l2"><i style="--i:4">J</i><i style="--i:5">E</i><i style="--i:6">N</i><i style="--i:7">S</i><i style="--i:8">E</i><i style="--i:9">N</i></span></p>
+    <h1 data-en="Bring Jensen back. Keep building AI.">支持黄仁勋重返领导岗位，继续推动 AI。</h1>
+    <p class="lead" data-en="Light up your support. Let our voices be heard.">点亮支持，让我们的声音被听见。</p>
+    <div class="cta">
+      <button class="btn pri js-cheer jsonly" type="button" data-n="1" disabled><span class="dot" aria-hidden="true"></span><span data-en="Cheer +1">应援 +1</span></button>
+      <button class="btn js-share jsonly" type="button" data-en="Share support">分享支持</button>
+      <a class="tlink" href="#timeline" data-en="See the timeline →">查看事件时间线 →</a>
+    </div>
+    <p class="hstats jsonly"><b class="js-cheer-n">—</b> <span data-en="support energy">应援能量</span><i aria-hidden="true">·</i><b class="js-share-n">—</b> <span data-en="share clicks">分享点击</span></p>
+    <a class="alert" href="#timeline" data-en="<b>Official, Nov 12, 2026:</b> Jensen Huang has resigned as President, CEO and director, effective immediately. Colette Kress is Interim CEO. Details →"><b>官方公告 · 2026-11-12：</b>黄仁勋已辞去总裁、CEO 与董事职务，即刻生效；Colette Kress 任临时 CEO。详情 →</a>
+  </div>
+  <p class="credit" data-en='Archive photo · SC18, 2018-11-12 · <a href="https://commons.wikimedia.org/wiki/File:JensenHuangSC18.jpg" target="_blank" rel="noopener noreferrer">Raysonho, CC0</a> · cropped for display'>档案照片 · SC18，2018-11-12 · <a href="https://commons.wikimedia.org/wiki/File:JensenHuangSC18.jpg" target="_blank" rel="noopener noreferrer">Raysonho，CC0</a> · 展示有裁切</p>
+</div>
+
+<div class="marquee" aria-hidden="true"><div class="mq" data-en='<span>SAVE JENSEN</span><span class="o">BRING JENSEN BACK</span><span>KEEP BUILDING AI</span><span class="o">STAND WITH JENSEN</span><span>SAVE JENSEN</span><span class="o">BRING JENSEN BACK</span><span>KEEP BUILDING AI</span><span class="o">STAND WITH JENSEN</span>'><span>SAVE JENSEN</span><span class="o">请黄仁勋回来</span><span>KEEP BUILDING AI</span><span class="o">继续推动 AI</span><span>SAVE JENSEN</span><span class="o">请黄仁勋回来</span><span>KEEP BUILDING AI</span><span class="o">继续推动 AI</span></div></div>
+
+<section id="rally" class="dark" aria-labelledby="rallyH">
+  <div class="wrap">
+    <div class="sh rev">
+      <div><p class="kicker" data-en="Supporters’ petition">支持者倡议</p><h2 id="rallyH" data-en="Bring Jensen back. Keep building AI.">支持黄仁勋重返领导岗位，继续推动 AI。</h2></div>
+      <div class="side"><p data-en="NVIDIA announced his resignation on November 12, 2026. We are supporters asking the Board to consider his return while it searches for a permanent CEO. This is our request; the decision is the Board’s.">NVIDIA 已于 2026 年 11 月 12 日宣布他辞任。我们是支持者，希望董事会在遴选永久 CEO 时认真考虑他的回归。这是我们的诉求，决定权在董事会。</p></div>
+    </div>
+    <div class="mkt rev" role="group" aria-labelledby="mktH">
+      <div class="mktHead"><h3 id="mktH" data-en="NVDA · Market">NVDA · 市场行情</h3><span class="mktTag" data-en="Delayed quotes">延迟行情</span></div>
+      <div class="mktChart tradingview-widget-container" id="nvdaChart">
+        <p class="mktState" id="nvdaState" data-en="Loading the chart. If it does not appear, use the link below.">行情图加载中；如未显示，请用下方链接查看。</p>
+      </div>
+      <p class="mktNote"><span data-en='Market data by <a href="https://www.tradingview.com/" target="_blank" rel="noopener noreferrer">TradingView</a>. Cheering adds community energy and does not affect the share price.'>行情由 <a href="https://www.tradingview.com/" target="_blank" rel="noopener noreferrer">TradingView</a> 提供。应援增加社区能量，不影响股价。</span> <a class="mktLink" href="https://www.tradingview.com/symbols/NASDAQ-NVDA/" target="_blank" rel="noopener noreferrer" data-en="View NVDA on TradingView ↗">在 TradingView 查看 NVDA ↗</a></p>
+    </div>
+    <p class="zoneLab" data-en="Community energy · boost here">社区能量 · 在这里助力</p>
+    <div class="mine rev">
+      <div class="count"><b id="cheerCount" class="js-cheer-n">—</b><span data-en="support energy">应援能量</span><span class="combo js-combo" aria-hidden="true"></span></div>
+      <div class="boost"><button class="btn pri big js-cheer jsonly" type="button" data-n="10" disabled><span class="dot" aria-hidden="true"></span><span data-en="Boost +10">助力 +10</span></button><button class="btn js-cheer jsonly" type="button" data-n="1" disabled data-en="Cheer +1">应援 +1</button></div>
+      <div class="count small"><b id="shareCount" class="js-share-n">—</b><span data-en="share clicks">分享点击次数</span></div>
+      <button class="btn js-share jsonly" type="button" data-en="Share support">分享支持</button>
+      <details style="flex-basis:100%;margin:0">
+        <summary data-en="How support energy is counted">应援能量怎么算</summary>
+        <div data-en="“Cheer +1” adds 1 support energy and “Boost +10” adds 10. Both are free and can be tapped again and again, so energy is not a head count and not a petition signature. Share clicks count presses of the button, not completed shares. Both numbers are confirmed by our server and refreshed on a timer every 12 seconds. Nothing here is generated automatically.">“应援 +1”每次加 1 应援能量，“助力 +10”每次加 10。两者都免费、可以一直点，所以应援能量不代表人数，也不是正式联署。分享点击统计的是按下按钮的次数，不代表成功转发。两个数字都以服务器确认为准，每 12 秒定时同步一次。这里没有任何自动生成的数字。</div>
+      </details>
+      <div class="goal" style="flex-basis:100%"><div class="goalTrack" aria-hidden="true"><div id="goalBar"></div></div><span class="note"><span data-en="First goal: 100,000 support energy">首个目标：100,000 应援能量</span> <span id="goalPct"></span></span></div>
+      <p class="live2 js-cheer-status" aria-live="polite" style="flex-basis:100%" data-en="Adding support energy needs JavaScript and a connection to our server.">应援需要启用 JavaScript 并连接到服务器。</p>
+      <button class="btn sm jsonly retry" type="button" id="cheerRetry" hidden></button>
+      <button class="btn sm jsonly" type="button" id="cheerUndo" hidden data-en="Withdraw this device’s energy">撤回本机应援能量</button>
+    </div>
+    <div class="wall rev" id="wallBox">
+      <h3 data-en="Selected messages of support">精选支持留言</h3>
+      <p class="note" data-en='Shown after admin review. Nicknames are self-chosen and not verified identities. <a href="#support">Write yours →</a>'>管理员审核通过后展示。昵称由留言者自拟，不代表经过核实的身份。<a href="#support">写下你的留言 →</a></p>
+      <ul id="wall"></ul>
+      <p class="note livemsg" id="wallMsg" aria-live="polite" data-en="Messages load from our server and need JavaScript.">留言从服务器读取，需要启用 JavaScript。</p>
+      <button class="btn sm" type="button" id="wallMore" hidden data-en="Load more">加载更多</button>
+    </div>
+    <div class="res rev">
+      <h3 data-en="Other efforts in support">其他支持倡议</h3>
+      <ul>
+        <li><a href="https://www.change.org/p/keep-jensen-huang-as-nvidia-ceo" target="_blank" rel="noopener noreferrer" data-en="View the third-party petition ↗">查看第三方请愿 ↗</a><span data-en="Change.org, “KEEP JENSEN HUANG AS NVIDIA CEO”, started by Amy Chang on 2026-11-11. A third-party petition asking the Board to consider Jensen Huang continuing to lead; it was started before the resignation announcement. Not affiliated with this site.">Change.org《KEEP JENSEN HUANG AS NVIDIA CEO》，发起人 Amy Chang，2026-11-11 创建。第三方发起，呼吁董事会考虑黄仁勋继续领导；发起于辞任公告前。与本站无隶属关系。</span></li>
+        <li><a href="https://discord.gg/3ENVKaWna" target="_blank" rel="noopener noreferrer" data-en="Join our Discord ↗">加入本站 Discord ↗</a><span>Save Jensen | Builders &amp; Fans</span></li>
+      </ul>
+    </div>
+    <div class="res rev">
+      <h3 data-en="Related philanthropy">相关公益资源</h3>
+      <p class="note" data-en="Public information about these organizations; listing them does not imply support for this campaign. For direct donations to open-source projects, see Give back below.">这里提供机构的公开信息，收录不代表其支持本倡议。开源项目的官方捐赠入口见下方「公益」。</p>
+      <ul>
+        <li><a href="https://www.nvidia.com/en-us/foundation/" target="_blank" rel="noopener noreferrer">NVIDIA Foundation ↗</a><span data-en="NVIDIA’s corporate foundation (official site).">NVIDIA 的企业基金会（官方网站）。</span></li>
+        <li><a href="https://projects.propublica.org/nonprofits/organizations/261551239" target="_blank" rel="noopener noreferrer">Jen-Hsun &amp; Lori Huang Foundation ↗</a><span data-en="Public tax filings on ProPublica’s Nonprofit Explorer. A public record, not a donation page.">ProPublica Nonprofit Explorer 上的公开税务资料。这是公开记录，不是捐款页面。</span></li>
+        <li><a href="https://huangcomplex.oregonstate.edu/faqs" target="_blank" rel="noopener noreferrer">Oregon State University · Huang Collaborative Innovation Complex ↗</a><span data-en="The university’s FAQ about the complex.">俄勒冈州立大学关于该中心的常见问题页面。</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="era" aria-labelledby="eraH">
+  <div class="wrap">
+    <div class="sh rev">
+      <div><p class="kicker" data-en="Why we are here">我们为什么在这里</p><h2 id="eraH" data-en="More than a jacket. An era of computing we lived through together.">不止一件皮衣。<br>是我们一起走过的技术时代。</h2></div>
+      <div class="side"><p data-en="For many of us his work was the first GPU, the first model that ran, the keynote that changed a career. That gratitude is real, and it can sit alongside a fair investigation.">对很多人来说，那是第一块显卡、第一次跑通的模型、一场改变方向的 Keynote。这份感谢是真实的，它可以和一场公正的调查同时存在。</p></div>
+    </div>
+    <div class="era-grid">
+      <figure class="era-main rev">
+        <div class="ph"><img src="{{ROOT}}assets/jensen-stanford-students.jpg" width="1280" height="960" loading="lazy" alt="黄仁勋在课后被学生围住合影" data-en-alt="Jensen Huang surrounded by students taking selfies after a lecture"></div>
+        <figcaption data-en='<b>2026-04-30 · Stanford.</b> With students after a CS153 guest lecture. Archive photo; the people pictured have no connection to this site. <a href="https://commons.wikimedia.org/wiki/File:Jensen_huang_stanford_2026-04-30_024.jpg" target="_blank" rel="noopener noreferrer">Anders Eidesvik, CC BY-SA 4.0</a>'><b>2026-04-30 · 斯坦福。</b>CS153 课后与学生合影。档案照片，画面中的人与本站无关。<a href="https://commons.wikimedia.org/wiki/File:Jensen_huang_stanford_2026-04-30_024.jpg" target="_blank" rel="noopener noreferrer">Anders Eidesvik，CC BY-SA 4.0</a></figcaption>
+      </figure>
+      <figure class="era-side rev">
+        <div class="ph"><img src="{{ROOT}}assets/jensen-award-2023.jpg" width="1350" height="1464" loading="lazy" alt="黄仁勋手持话筒在讲台前发言" data-en-alt="Jensen Huang speaking at a lectern, microphone in hand"></div>
+        <figcaption data-en='<b>2023-11-09 · Taipei.</b> At the K.T. Li Award ceremony. <a href="https://commons.wikimedia.org/wiki/File:Jensen_Huang_20231109.jpg" target="_blank" rel="noopener noreferrer">Office of the President, Taiwan, CC BY 2.0</a>'><b>2023-11-09 · 台北。</b>李国鼎奖颁奖典礼。<a href="https://commons.wikimedia.org/wiki/File:Jensen_Huang_20231109.jpg" target="_blank" rel="noopener noreferrer">總統府，CC BY 2.0</a></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="timeline" aria-labelledby="tlH" style="padding-top:0">
+  <div class="wrap">
+    <div class="sh rev">
+      <div><p class="kicker" data-en="01 · Timeline">01 · 事件时间线</p><h2 id="tlH" data-en="Facts on the table first.">先把事实摆在桌上。</h2></div>
+      <div class="side"><p data-en="Only key moments we verified by opening the original page, newest first. Reported claims are attributed and are not established facts.">只收录打开原始页面核对过的重要节点，倒序排列。报道中的说法均注明出处，不代表已被证实。</p>
+      <p class="note" data-en='Manually checked: <span class="js-checked"></span>. Not a live feed.'>人工核查：<span class="js-checked"></span>。不是实时同步。</p></div>
+    </div>
+    <div class="desk rev">
+      <div class="status" role="note">
+        <div class="lbl" data-en="Latest status · official">最新状态 · 官方</div>
+        <div data-en='<strong>Jensen Huang has resigned as President, CEO and a member of the Board, effective immediately</strong> (NVIDIA, November 12, 2026). Colette Kress is Interim CEO and remains CFO. Harvey C. Jones is the first Chair of the Board, and the Board is searching for a permanent CEO. The rumor that Jay Puri would succeed him is <strong>contradicted by the announcement</strong>. <a href="https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition" target="_blank" rel="noopener noreferrer">Read the announcement ↗</a>'><strong>黄仁勋已辞去总裁、CEO 与董事职务，即刻生效</strong>（NVIDIA，2026 年 11 月 12 日）。Colette Kress 任临时 CEO 并继续担任 CFO；Harvey C. Jones 任首位董事长；董事会正在遴选永久 CEO。网传“Jay Puri 接任”<strong>与官方公告不符</strong>。<a href="https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition" target="_blank" rel="noopener noreferrer">阅读官方公告 ↗</a></div>
+      </div>
+      <div class="live">
+        <div class="lbl"><i aria-hidden="true"></i><span data-en="Next official live event">下一场官方直播</span></div>
+        <p data-en="NVIDIA Q3 FY2027 earnings call · audio webcast, listen-only">NVIDIA 2027 财年 Q3 财报电话会 · 音频网络直播，仅收听</p>
+        <div class="cd" id="cd">—</div>
+        <p class="note" id="cdNote"></p>
+        <ul>
+          <li><a href="https://investor.nvidia.com/" target="_blank" rel="noopener noreferrer" data-en="Official webcast (NVIDIA IR) ↗">官方直播入口（NVIDIA 投资者关系）↗</a></li>
+          <li><a href="https://nvidianews.nvidia.com/news" target="_blank" rel="noopener noreferrer" data-en="NVIDIA Newsroom, latest ↗">NVIDIA Newsroom 最新 ↗</a></li>
+          <li><a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&amp;CIK=1045810&amp;type=8-K&amp;dateb=&amp;owner=include&amp;count=10" target="_blank" rel="noopener noreferrer" data-en="SEC filings ↗">SEC 公告 ↗</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="chips jsonly" role="group" id="tlFilter" aria-label="按来源类型筛选时间线" data-en-label="Filter timeline by source type">{{TLFILTER}}</div>
+    <ol class="tl" id="tl">{{TL}}</ol>
+    <h3 class="sub" data-en="Not yet happened">尚未发生</h3>
+    <p class="note" data-en="Announced or reported plans. They may change.">已公布或被报道的计划，可能变更。</p>
+    <div class="fut" id="future">{{FUTURE}}</div>
+  </div>
+</section>
+
+<section id="hub" aria-labelledby="hubH">
+  <div class="wrap">
+    <div class="sh rev">
+      <div><p class="kicker" data-en="02 · Library">02 · 内容中心</p><h2 id="hubH" data-en="Worth reading, in one place.">值得读的，都在这。</h2></div>
+      <div class="side"><p data-en="Editor-picked, updated by hand. A short original summary plus a link to the source.">编辑精选，手动更新。原创短摘要，加原始链接。</p>
+      <p class="note" data-en="Labels say who published it, not whether a claim is settled.">标签说明的是谁发布的，不代表事件结论。</p></div>
+    </div>
+    <div class="tools rev jsonly">
+      <div class="srow">
+        <label for="q" class="skip" style="position:absolute" data-en="Search titles and summaries">搜索标题与摘要</label>
+        <input type="search" id="q" placeholder="搜索标题或摘要，例如：调查、财报、CNBC" data-en-placeholder="Search titles or summaries, e.g. investigation, earnings, CNBC" autocomplete="off">
+        <div class="chips" role="group" aria-label="排序" data-en-label="Sort">
+          <button class="chip" data-sort="latest" aria-pressed="true" data-en="Latest">最新</button>
+          <button class="chip" data-sort="featured" aria-pressed="false" data-en="Featured">精选</button>
+          <button class="chip" id="favOnly" aria-pressed="false" data-en='★ Saved <span id="favCount">0</span>'>★ 我的收藏 <span id="favCount">0</span></button>
+        </div>
+      </div>
+      <div class="chips" id="cats" role="group" aria-label="内容分类" data-en-label="Categories">{{CATS}}</div>
+      <p class="note livemsg" id="hubStatus" aria-live="polite"></p>
+    </div>
+    <div class="grid" id="hubGrid">{{HUB}}</div>
+    <p class="note" style="margin-top:28px" data-en='Saved items stay in this browser. Suggest content in <a href="https://discord.gg/3ENVKaWna" target="_blank" rel="noopener noreferrer">#content-submissions on Discord</a>; admins verify the source before it appears here.'>收藏只保存在此浏览器。想推荐内容，请到 <a href="https://discord.gg/3ENVKaWna" target="_blank" rel="noopener noreferrer">Discord 的 #content-submissions</a> 投稿；管理员核实来源后才会收录。</p>
+  </div>
+</section>
+
+<figure class="strip">
+  <div class="ph"><img src="{{ROOT}}assets/jensen-stanford-panorama.jpg" width="1280" height="408" loading="lazy" alt="阶梯教室里坐满学生，黄仁勋坐在讲台前交谈" data-en-alt="A full lecture hall of students; Jensen Huang seated at the front in conversation"></div>
+  <figcaption data-en='<b>2026-04-30 · Stanford, CS153 lecture hall.</b> Archive photo, panorama stitched by the photographer; cropped for display. <a href="https://commons.wikimedia.org/wiki/File:Jensen_huang_stanford_2026-04-30_014.jpg" target="_blank" rel="noopener noreferrer">Anders Eidesvik, CC BY-SA 4.0</a>'><b>2026-04-30 · 斯坦福 CS153 课堂。</b>档案照片，全景由摄影者拼接；展示有裁切。<a href="https://commons.wikimedia.org/wiki/File:Jensen_huang_stanford_2026-04-30_014.jpg" target="_blank" rel="noopener noreferrer">Anders Eidesvik，CC BY-SA 4.0</a></figcaption>
+</figure>
+
+<section id="support" class="dark" aria-labelledby="supH">
+  <div class="wrap">
+    <div class="sh rev">
+      <div><p class="kicker" data-en="03 · Your story">03 · 你的故事</p><h2 id="supH" data-en="How did his work change yours?">他的工作，<br>怎样影响了你？</h2></div>
+      <div class="side"><p data-en="No slogans needed. One real experience carries more weight than any number.">不需要口号。一段真实经历，比任何数字都有分量。</p></div>
+    </div>
+    <div class="sup-grid">
+      <figure class="por rev">
+        <div class="ph"><img src="{{ROOT}}assets/jensen-stanford-portrait.jpg" width="960" height="1280" loading="lazy" alt="黄仁勋身穿黑色皮衣，坐着边说话边比划" data-en-alt="Jensen Huang in a black leather jacket, seated and gesturing as he speaks"></div>
+        <figcaption data-en='<b>2026-04-30 · Stanford.</b> Archive photo. <a href="https://commons.wikimedia.org/wiki/File:Jensen_huang_stanford_2026-04-30_008.jpg" target="_blank" rel="noopener noreferrer">Anders Eidesvik, CC BY-SA 4.0</a>'><b>2026-04-30 · 斯坦福。</b>档案照片。<a href="https://commons.wikimedia.org/wiki/File:Jensen_huang_stanford_2026-04-30_008.jpg" target="_blank" rel="noopener noreferrer">Anders Eidesvik，CC BY-SA 4.0</a></figcaption>
+      </figure>
+      <form class="panel rev" id="msgForm" novalidate>
+        <h3 data-en="Leave a message of support">留下一句支持留言</h3>
+        <p class="note livemsg" id="msgState" aria-live="polite" data-en="Messages need JavaScript and a connection to our server.">留言需要启用 JavaScript 并连接到服务器。</p>
+        <div class="mineMsg" id="msgMine" hidden>
+          <span class="b" id="mineStatus"></span>
+          <blockquote id="mineText"></blockquote>
+          <button class="btn sm" type="button" id="msgWithdraw" data-en="Withdraw my message">撤回我的留言</button>
+        </div>
+        <div id="msgFields" class="jsonly">
+          <label for="nick" data-en="Nickname (2–32 characters)">昵称（2–32 字）</label>
+          <input type="text" id="nick" maxlength="32" autocomplete="nickname" placeholder="例如：一位做渲染的开发者" data-en-placeholder="e.g. A rendering developer">
+          <label for="story"><span data-en="How his work changed mine">他的工作怎样影响了我</span> <span class="note" id="cnt">0/280</span></label>
+          <textarea id="story" rows="5" maxlength="280" placeholder="写你自己的真实经历。请勿包含链接、联系方式或他人隐私。" data-en-placeholder="Your own real experience. No links, contact details, or anyone else’s private information."></textarea>
+          <label for="avatar" data-en="Avatar (optional)">头像（可选）</label>
+          <div class="avrow"><span class="av" id="avPrev" aria-hidden="true"></span><input type="file" id="avatar" accept="image/jpeg,image/png,image/webp"><button class="btn sm" type="button" id="avClear" hidden data-en="Remove">移除</button></div>
+          <p class="note" style="margin:8px 0 0" data-en="Shrunk to a small square in your browser before upload, and reviewed together with your message. Please do not use a photo of someone else.">上传前会在你的浏览器里缩成小方图，随留言一起审核。请不要使用他人的照片。</p>
+          <label class="check"><input type="checkbox" id="consent"><span data-en="I agree that my nickname, message and avatar (if any) may be shown publicly on this site after review.">我同意昵称、留言和头像（如有）在审核通过后公开展示在本站。</span></label>
+          <div class="cta" style="margin:18px 0 0;gap:8px">
+            <button class="btn pri" type="submit" id="msgSubmit" data-en="Submit for review">提交审核</button>
+            <button class="btn" type="button" id="dlCard" data-en="Download card (PNG)">下载卡片 PNG</button>
+            <button class="btn" type="button" id="clearDraft" data-en="Clear">清空</button>
+          </div>
+        </div>
+        <details>
+          <summary data-en="Privacy and moderation">隐私与审核说明</summary>
+          <div data-en='<p>Every message waits for a human admin. An automatic check first rejects obvious problems (links, contact details, insults, flooding); it is a coarse filter and cannot judge everything, so passing it does not mean approval. Approved messages appear as “Selected messages of support”; not every message is shown.</p><p>We store your nickname, your message, your optional avatar (a small image), a hash of a random credential kept in a cookie on this device (to recognise your own record), and, for a short time, a salted hash of your IP address for rate limiting. No login, email, or real name. You can withdraw your message from this device at any time and it leaves the wall at once; the avatar is deleted.</p><p>A message is not a signature on the open letter and is not delivered to NVIDIA automatically.</p>'><p>每条留言都要等管理员人工审核。提交时会先做一次自动检查，拦下明显的问题（链接、联系方式、辱骂、刷屏）；它只是粗筛，无法判断一切，通过它不代表通过审核。通过审核的留言以“精选支持留言”展示，并非所有留言都会展示。</p><p>我们保存：昵称、留言、可选的头像（小尺寸图片）、此设备 Cookie 中随机凭据的哈希（用来认出你自己的记录），以及短期保存、加盐后的 IP 哈希（用于限流）。不需要登录、邮箱或真实姓名。你可以随时在这台设备上撤回留言，撤回后立即从留言墙移除，头像同时删除。</p><p>留言不是公开信的联署签名，也不会自动递交给英伟达。</p></div>
+        </details>
+      </form>
+      <div class="rev">
+        <canvas id="card" width="1080" height="1350" aria-label="分享卡片预览" data-en-label="Share card preview"></canvas>
+        <p class="note livemsg" id="draftMsg" aria-live="polite" style="margin-top:10px" data-en="Card preview. Generated in your browser; downloading it uploads nothing.">卡片预览。在你的浏览器里生成，下载不会上传任何内容。</p>
+        <div class="share jsonly">
+          <p id="shareText"></p>
+          <button class="btn sm js-share" type="button" data-en="Share this">分享这段话</button>
+          <span class="note livemsg" id="copyShareMsg" aria-live="polite"></span>
+          <div class="fallback" id="shareFallback" hidden><label for="shareTa" data-en="Automatic copy is unavailable. Select all and copy:">自动复制不可用，请手动全选复制：</label><textarea id="shareTa" rows="4" readonly></textarea></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="letter" aria-labelledby="letH">
+  <div class="wrap">
+    <div class="sh rev">
+      <div><p class="kicker" data-en="04 · Open letter to NVIDIA">04 · 致英伟达的公开信</p><h2 id="letH" data-en="Let NVIDIA hear our support.">让英伟达听见<br>我们的支持。</h2></div>
+      <div class="side"><p data-en="The organizers’ open letter v1.0 was sent to NVIDIA Investor Relations on November 13, 2026. The full text as sent is below.">主办方公开信 v1.0 已于 2026 年 11 月 13 日发往 NVIDIA 投资者关系邮箱。下面是实际发送的全文。</p>
+      <p class="note" data-en="A single organizer submission. No supporter’s name, message, email or avatar was included. Formal signing is not open.">这是主办方的单次提交，不含任何支持者的姓名、留言、邮箱或头像。正式联署尚未开放。</p></div>
+    </div>
+    <div class="rev">
+      <p class="kicker" data-en='Delivery status: <span id="stageName"></span>'>递交进度：<span id="stageName"></span></p>
+      <ol class="steps" id="steps">{{STEPS}}</ol>
+      <p class="note" id="subLog" data-en="Nov 13, 2026, 12:48:23 Beijing time (UTC+8): organizer letter v1.0 was emailed to NVIDIA’s public Investor Relations address, ir@nvidia.com, with a request to forward it to the Corporate Secretary or the appropriate team for the Board. Subject: “Save Jensen open letter — request for Board consideration of Jensen Huang’s possible return”. No acknowledgment or reply so far. “Sent” does not mean the Board has received it, read it, or been forwarded it.">2026-11-13 12:48:23（北京时间 UTC+8）：主办方公开信 v1.0 已通过邮件发往 NVIDIA 投资者关系公开邮箱 ir@nvidia.com，并请其转交 Corporate Secretary 或董事会相关团队。邮件主题：“Save Jensen open letter — request for Board consideration of Jensen Huang’s possible return”。截至目前尚无收件确认或回复。“已发送”不代表董事会已收到、已阅读或信件已被转交。</p>
+      <p class="note" data-en="Supporters’ signing is a separate process and is not open: no signatures have been collected, verified or sent. Nothing from visitors (messages, avatars, emails, signatures) was part of this submission.">支持者联署是另一条流程，尚未开放：没有征集、核验或递交任何署名。本次提交不含访客的任何内容（留言、头像、邮箱、签名）。</p>
+    </div>
+    <div class="let-grid">
+      <div class="rev">
+        <div class="srow jsonly" style="margin-bottom:16px">
+          <div class="chips" role="group" aria-label="信件语言" data-en-label="Letter language">
+            <button class="chip" data-lang="zh" aria-pressed="true">中文</button>
+            <button class="chip" data-lang="en" aria-pressed="false">English</button>
+          </div>
+          <button class="btn sm" id="copyLetter" data-en="Copy">复制</button>
+          <button class="btn sm" id="dlLetter" data-en="Download .txt">下载 .txt</button>
+          <button class="btn sm" id="printLetter" data-en="Print">打印</button>
+          <span class="note livemsg" id="letterMsg" aria-live="polite"></span>
+        </div>
+        <article class="letter" id="letterText" tabindex="0" lang="{{HTML_LANG}}">{{LETTER}}</article>
+        <div class="fallback" id="letterFallback" hidden><label for="letterTa" data-en="Automatic copy is unavailable. Select all and copy:">自动复制不可用，请手动全选复制：</label><textarea id="letterTa" rows="8" readonly></textarea></div>
+      </div>
+      <div class="acc rev">
+        <details open>
+          <summary data-en="Formal signing: not open yet">正式联署：尚未开放</summary>
+          <div data-en='<p>Formal signing is not open yet. The support records and messages on this page are not petition signatures and are not delivered to NVIDIA automatically; the organizer letter of November 13 did not include them.</p><p>Once open, you will read a fixed version of the letter, enter a display name, and tick two separate boxes, both off by default: “deliver my name and message to NVIDIA” and “show publicly”. Email is used only for verification and is never published. You can withdraw before the deadline.</p>'><p>正式联署还没有开放。本页的支持记录和留言不是联署签名，也不会自动递交给英伟达；11 月 13 日发出的主办方信件没有附带它们。</p><p>开放后：先读固定版本的信件，填写展示昵称，再分别勾选“授权递交英伟达”和“同意公开展示”——两项默认都不勾选。邮箱只用于验证，不公开。截止前可撤回。</p></div>
+        </details>
+        <details>
+          <summary data-en="How it was sent, and what comes next">这次怎么递交的，之后怎么做</summary>
+          <div data-en='<p>Done: on November 13, 2026 the organizers emailed open letter v1.0 to NVIDIA’s public Investor Relations address, asked for it to be forwarded to the Corporate Secretary or the appropriate team for the Board, and asked to be told if another channel is the right one.</p><p>NVIDIA’s published contacts each have their own scope and none is a channel for supporters’ petitions. We do not claim the letter has been accepted. If formal signing opens later, authorized names and stories will be verified and delivered once by the organizers. No “email blast” button for visitors.</p><p class="note">Organizer contact: <span id="orgContact"></span></p>'><p>已完成的一步：2026 年 11 月 13 日，主办方把公开信 v1.0 通过邮件发往 NVIDIA 投资者关系公开邮箱，请其转交 Corporate Secretary 或董事会相关团队，并请对方在渠道不合适时告知应发往何处。</p><p>NVIDIA 公开的联络方式各有适用范围，都不是支持者联署的专用渠道，我们不声称信件已被受理。今后如开放正式联署，经授权的昵称与故事会另行核验，由主办方集中递交一次。不做访客“一键群发”。</p><p class="note">主办人联系方式：<span id="orgContact"></span></p></div>
+        </details>
+        <details>
+          <summary data-en="What each step means">每一步意味着什么</summary>
+          <div data-en="<p>A step lights up only after it has really happened and there is a date and proof we can publish. “Sent” does not mean “read by the Board”.</p>"><p>每一步只有真实发生、并有可公开的日期与凭证后才会点亮。“已发送”不等于“董事会已阅读”。</p></div>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="discord" class="dark" aria-labelledby="dcH">
+  <div class="wrap dc">
+    <div class="rev">
+      <p class="kicker" data-en="05 · Community">05 · 社区</p>
+      <h2 id="dcH">Builders &amp; Fans.</h2>
+      <p style="color:#b9b6ad;max-width:30em" data-en='<strong id="dcName" style="color:#fff"></strong> is our Discord: verified updates, your own stories, fan work, and suggestions for the library.'><strong id="dcName" style="color:#fff"></strong> 是我们的 Discord：看核实过的更新、讲自己的故事、分享创作、推荐值得收录的内容。</p>
+      <details>
+        <summary data-en="Channels and six rules">频道与六条规则</summary>
+        <div data-en='<p>You land in <code>#start-here</code>: read the rules first, then post in <code>#builder-stories</code>. <code>#start-here</code> and <code>#verified-updates</code> are read-only; <code>#discussion</code> has a 10-second slow mode. Also: <code>#fan-art</code>, <code>#content-submissions</code>, <code>#suggestions</code>. Posting requires a verified email on your Discord account.</p><ul style="margin:0;padding-left:1.2em"><li>Respect the investigation; argue from evidence</li><li>No harassment of those involved, their families, or directors</li><li>No sharing of private information</li><li>No brigading</li><li>No coordinated trading or investment advice</li><li>No impersonating NVIDIA or any official role</li></ul>'><p>进入后落在 <code>#start-here</code>：先读规则，再去 <code>#builder-stories</code> 发第一条故事。<code>#start-here</code> 与 <code>#verified-updates</code> 为只读；<code>#discussion</code> 有 10 秒慢速。另有 <code>#fan-art</code>、<code>#content-submissions</code>、<code>#suggestions</code>。发言需要 Discord 账号已验证邮箱。</p><ul style="margin:0;padding-left:1.2em"><li>尊重调查，按证据说话</li><li>不骚扰当事人、家属或董事</li><li>不传播任何人的隐私</li><li>不组织刷屏</li><li>不组织金融交易，没有投资建议</li><li>不冒充 NVIDIA 或任何官方身份</li></ul></div>
+      </details>
+    </div>
+    <div class="rev" id="dcBox"><span class="b community" data-en="Open">已开放</span><h3>Save Jensen | Builders &amp; Fans</h3><p data-en="The invite opens #start-here. Read the rules there before you post.">邀请链接会带你到 #start-here，发言前请先读那里的规则。</p><a class="btn pri" href="https://discord.gg/3ENVKaWna" target="_blank" rel="noopener noreferrer" data-en="Join the Discord ↗">加入 Discord ↗</a><p class="note" style="margin:14px 0 0" data-en="Discord is a third-party service with its own terms and privacy policy.">Discord 是第三方服务，适用其自身的条款与隐私政策。</p></div>
+  </div>
+</section>
+<section id="give" aria-labelledby="giveH">
+  <div class="wrap">
+    <div class="giveIntro">
+      <div>
+        <p class="kicker" data-en="06 · Give back">06 · 公益</p>
+        <h2 id="giveH" data-en="Keep the foundations<br>open to everyone.">让 AI 的开源基础，<br>继续属于每一个人。</h2>
+        <p class="giveLead" data-en="Support the open-source foundations of AI. Help the people maintaining the tools that make our next ideas possible.">支持 AI 的开源基础，支持那些让下一个想法成为可能的工具与维护者。</p>
+      </div>
+      <aside class="openSource">
+        <span class="codeMark" aria-hidden="true">&lt;/&gt;</span>
+        <h3 data-en="Built in the open.">公开构建，一起完善。</h3>
+        <p data-en="Save Jensen is a public-benefit community project. Explore the code, improve a translation, or contribute a fix.">Save Jensen 是一个公益社区项目。查看源码、完善翻译，或贡献一次修复。</p>
+        <a class="btn" href="https://github.com/chatjesus/save-jensen" target="_blank" rel="noopener noreferrer" data-en="Explore on GitHub ↗">在 GitHub 查看源码 ↗</a>
+        <small data-en="MIT-licensed code · Images retain their own licenses">代码采用 MIT 许可 · 图片保留各自许可</small>
+      </aside>
+    </div>
+    <div class="giveGrid">
+      <article class="giveCard">
+        <span class="giveLabel" data-en="Scientific computing">科学计算</span>
+        <h3>NumFOCUS</h3>
+        <p data-en="Help sustain the open-source scientific computing ecosystem and the communities behind it.">支持开源科学计算生态，以及持续维护它的社区。</p>
+        <a href="https://numfocus.org/donate" target="_blank" rel="noopener noreferrer" data-en="Donate to NumFOCUS ↗">向 NumFOCUS 捐赠 ↗</a>
+      </article>
+      <article class="giveCard">
+        <span class="giveLabel" data-en="Machine learning">机器学习</span>
+        <h3>scikit-learn</h3>
+        <p data-en="Support the open-source machine learning toolkit, through its project donation page at NumFOCUS.">通过 NumFOCUS 的项目捐赠页，支持开源机器学习工具。</p>
+        <a href="https://numfocus.org/donate-to-scikit-learn" target="_blank" rel="noopener noreferrer" data-en="Support scikit-learn ↗">支持 scikit-learn ↗</a>
+      </article>
+      <article class="giveCard">
+        <span class="giveLabel" data-en="The numerical foundation">数值计算基础</span>
+        <h3>NumPy</h3>
+        <p data-en="Support numerical computing in Python, through NumPy’s project donation page at NumFOCUS.">通过 NumFOCUS 的 NumPy 项目捐赠页，支持 Python 数值计算。</p>
+        <a href="https://numfocus.org/donate-to-numpy" target="_blank" rel="noopener noreferrer" data-en="Support NumPy ↗">支持 NumPy ↗</a>
+      </article>
+    </div>
+    <p class="giveNote" data-en="You donate on the official NumFOCUS pages, to the organization or project you choose. Save Jensen receives no money or commission. These listings do not imply an affiliation with or endorsement of this campaign.">捐赠在 NumFOCUS 官方页面完成，交由你选择的机构或项目接收。Save Jensen 不经手资金，也不收取佣金。收录不表示机构与本倡议存在合作或背书关系。</p>
+  </div>
+</section>
+</main>
+<div id="dock" class="jsonly" role="region" aria-label="快速助力" data-en-label="Quick boost">
+  <div class="dockIn">
+    <span class="dockN"><b class="js-cheer-n">—</b><small data-en="support energy">应援能量</small></span>
+    <span class="combo js-combo" aria-hidden="true"></span>
+    <button class="btn pri js-cheer" type="button" data-n="10" disabled><span class="dot" aria-hidden="true"></span><span data-en="Boost +10">助力 +10</span></button>
+  </div>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<footer>
+  <div class="wrap">
+    <p class="word" aria-hidden="true">Save Jensen</p>
+    <p class="footerLinks"><a href="https://github.com/chatjesus/save-jensen" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="#give" data-en="Support open-source AI">支持 AI 开源公益</a></p>
+    <div class="fgrid">
+      <div data-en='<p><strong>Save Jensen · Supporters community</strong><br>An independent community started by supporters.</p><p>Facts checked: <span class="js-checked"></span>.</p>'><p><strong>Save Jensen · 支持者社区</strong><br>由支持者发起的独立社区。</p><p>事实核查：<span class="js-checked"></span>。</p></div>
+      <details>
+        <summary data-en="Photo credits">图片来源与许可</summary>
+        <div data-en='<p>All five are archive photos from Wikimedia Commons, cropped for display only; the originals are unaltered. Photographers and the people pictured do not endorse this site.</p><ul style="padding-left:1.2em;margin:0"><li>SC18 keynote, 2018-11-12 — <a href="https://commons.wikimedia.org/wiki/File:JensenHuangSC18.jpg" target="_blank" rel="noopener noreferrer">Raysonho</a>, <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener noreferrer">CC0 1.0</a></li><li>Stanford CS153, 2026-04-30 (portrait, panorama, students) — <a href="https://commons.wikimedia.org/wiki/File:Jensen_huang_stanford_2026-04-30_008.jpg" target="_blank" rel="noopener noreferrer">Anders Eidesvik</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a></li><li>K.T. Li Award, 2023-11-09 — <a href="https://commons.wikimedia.org/wiki/File:Jensen_Huang_20231109.jpg" target="_blank" rel="noopener noreferrer">Office of the President, Taiwan</a>; crop by Yu tptw, <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener noreferrer">CC BY 2.0</a></li></ul>'><p>五张均为来自 Wikimedia Commons 的档案照片，页面展示有裁切，原图未改动。摄影者与画面中的人不为本站背书。</p><ul style="padding-left:1.2em;margin:0"><li>SC18 主题演讲，2018-11-12 — <a href="https://commons.wikimedia.org/wiki/File:JensenHuangSC18.jpg" target="_blank" rel="noopener noreferrer">Raysonho</a>，<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener noreferrer">CC0 1.0</a></li><li>斯坦福 CS153，2026-04-30（人像、全景、学生合影）— <a href="https://commons.wikimedia.org/wiki/File:Jensen_huang_stanford_2026-04-30_008.jpg" target="_blank" rel="noopener noreferrer">Anders Eidesvik</a>，<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a></li><li>李国鼎奖，2023-11-09 — <a href="https://commons.wikimedia.org/wiki/File:Jensen_Huang_20231109.jpg" target="_blank" rel="noopener noreferrer">總統府</a>；Yu tptw 裁切，<a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener noreferrer">CC BY 2.0</a></li></ul></div>
+      </details>
+    </div>
+  </div>
+</footer>
+
+<script type="application/json" id="sj-letters">{{LETTERS_JSON}}</script>
+<script src="{{ROOT}}assets/app.js" defer></script>
+</body>
+</html>

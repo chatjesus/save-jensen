@@ -1,0 +1,20 @@
+{
+  "name": "save-jensen-server",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/worker.test.mjs test/seo.test.mjs",
+    "build": "python3 ../build.py",
+    "migrate:remote": "wrangler d1 migrations apply DB --remote",
+    "deploy": "wrangler deploy",
+    "dev": "node dev-server.mjs"
+  },
+  "version": "1.0.0",
+  "license": "MIT",
+  "engines": {
+    "node": ">=24"
+  },
+  "devDependencies": {
+    "wrangler": "4.161.0"
+  }
+}

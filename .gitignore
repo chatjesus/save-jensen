@@ -1,0 +1,15 @@
+node_modules/
+server/public/
+server/wrangler.jsonc
+.wrangler/
+.env
+.env.*
+.dev.vars
+.dev.vars.*
+*.sqlite
+*.sqlite-*
+*.db
+*.db-*
+*.log
+.DS_Store
+__pycache__/

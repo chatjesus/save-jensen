@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Save Jensen · 留言审核</title>
+<link rel="icon" type="image/png" href="../favicon.png">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/admin.css">
+</head>
+<body class="adm">
+<main class="wrap">
+  <h1>留言审核</h1>
+  <p class="note">仅管理员使用。令牌只保存在这个页面的内存里，刷新或关闭即失效；不会写入地址栏、Cookie 或本地存储。</p>
+  <form id="auth" autocomplete="off">
+    <label for="tok">管理员令牌（ADMIN_TOKEN）</label>
+    <div class="srow">
+      <input type="password" id="tok" autocomplete="off" spellcheck="false" required>
+      <button class="btn pri" type="submit">进入</button>
+    </div>
+  </form>
+  <p class="note livemsg" id="msg" aria-live="polite"></p>
+  <section id="panel" hidden>
+    <p id="stats" class="note"></p>
+    <div class="chips" role="group" aria-label="状态" id="tabs">
+      <button class="chip" data-s="pending" aria-pressed="true">待审核</button>
+      <button class="chip" data-s="approved" aria-pressed="false">已通过</button>
+      <button class="chip" data-s="hidden" aria-pressed="false">已隐藏</button>
+      <button class="chip" data-s="withdrawn" aria-pressed="false">已撤回</button>
+      <button class="chip" id="reload" type="button">刷新</button>
+      <button class="chip" id="lock" type="button">退出</button>
+    </div>
+    <ul id="list"></ul>
+    <p class="note">通过：公开展示在“精选支持留言”。隐藏：不公开（可再次通过）。已撤回的留言由留言者本人移除，不能再通过。自动检查只拦明显问题，请逐条阅读：有无隐私、骚扰、投资建议、冒充官方、未核实的指控。</p>
+  </section>
+</main>
+<script src="../assets/admin.js" defer></script>
+</body>
+</html>

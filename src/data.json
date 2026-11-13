@@ -1,0 +1,520 @@
+{
+ "TL": [
+  {
+   "kind": "official",
+   "d": "11.12",
+   "when": "发布页日期：2026-11-12（页面未标注时刻与时区）",
+   "whenEn": "Page date: 2026-11-12 (no time or time zone shown)",
+   "title": "官方：黄仁勋辞去总裁、CEO 与董事职务，即刻生效",
+   "titleEn": "Official: Jensen Huang resigns as President, CEO and director, effective immediately",
+   "body": "NVIDIA 董事会宣布，黄仁勋已辞去总裁、首席执行官及董事会成员职务，即刻生效。执行副总裁兼 CFO Colette Kress 出任临时 CEO，并继续担任 CFO，直至永久继任者确定。Harvey C. Jones 被任命为公司首位董事长。董事会将启动永久 CEO 的遴选，内部与外部人选都在考虑之列。公告称第三季度财报仍按原计划于 11 月 17 日发布。公告正文没有提到独立调查的进展或结论，也没有提到黄仁勋此后担任任何职务。",
+   "bodyEn": "NVIDIA’s Board announced that Jensen Huang has resigned as President, Chief Executive Officer, and a member of the Board, effective immediately. Colette Kress, EVP and CFO, becomes Interim CEO and continues as CFO until a permanent successor is named. Harvey C. Jones was appointed the company’s first-ever Chair of the Board. The Board is starting a search for a permanent CEO and will consider internal and external candidates. Third-quarter results will still be reported on November 17 as scheduled. The release does not mention the status or findings of the independent investigation, or any continuing role for Huang.",
+   "src": [
+    [
+     "NVIDIA Newsroom",
+     "NVIDIA Newsroom",
+     "https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition"
+    ]
+   ]
+  },
+  {
+   "kind": "unverified",
+   "when": "网传，无来源 · 2026-11-12 官方公告发布前流传",
+   "whenEn": "Circulating claim with no source · spread before the official announcement of 2026-11-12",
+   "title": "网传“Jay Puri 接任”——与官方公告不符",
+   "titleEn": "Rumor that “Jay Puri will succeed him” — contradicted by the official announcement",
+   "body": "这条传闻称“董事会批准黄仁勋辞任、Jay Puri 接任”。官方 11 月 12 日的公告确认了辞任，但接任安排与传闻不同：公告写明由 Colette Kress 出任临时 CEO，全文没有出现 Jay Puri。传闻中关于继任者的部分与官方公告不符。",
+   "bodyEn": "The rumor said “the board approved Huang’s resignation and Jay Puri will succeed him.” NVIDIA’s November 12 announcement confirmed the resignation, but not the succession: it names Colette Kress as Interim CEO, and Jay Puri does not appear anywhere in it. The succession part of the rumor is contradicted by the official announcement.",
+   "src": [
+    [
+     "NVIDIA Newsroom：CEO 交接公告",
+     "NVIDIA Newsroom: CEO transition announcement",
+     "https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition"
+    ]
+   ],
+   "d": "—"
+  },
+  {
+   "kind": "media",
+   "when": "报道发布：2026-11-12 05:13 EST（CNBC）· 08:03 GMT（The Next Web）",
+   "whenEn": "Published: 2026-11-12 05:13 EST (CNBC) · 08:03 GMT (The Next Web)",
+   "title": "媒体：当天早些时候的报道称尚无决定公布（其后官方已公告）",
+   "titleEn": "Media: earlier that day, reports said no decision had been announced (since superseded)",
+   "body": "这是官方公告之前的报道。CNBC 当时称 NVIDIA 尚未就黄仁勋的去留发表公开声明；The Next Web 称截至周三深夜没有决定被宣布。报道中出现的“临时 CEO 人选”当时来自分析师的推测。此后官方公告见上一条。",
+   "bodyEn": "These reports predate the official announcement. CNBC said at the time that NVIDIA had made no public statement about Huang’s future; The Next Web said no decision had been announced by the end of Wednesday night. Names floated as a possible interim CEO were analysts’ speculation at that point. See the entry above for the announcement that followed.",
+   "src": [
+    [
+     "CNBC（2026-11-12）",
+     "CNBC (2026-11-12)",
+     "https://www.cnbc.com/2026/11/12/jensen-huang-nvidia-affair-ceo.html"
+    ],
+    [
+     "The Next Web（2026-11-12）",
+     "The Next Web (2026-11-12)",
+     "https://thenextweb.com/news/nvidia-board-meeting-jensen-huang-ouster-no-decision"
+    ]
+   ],
+   "d": "11.12"
+  },
+  {
+   "kind": "media",
+   "when": "事件：2026-11-11（周三）晚间，美国时间，具体时刻未见报道 · 报道发布：17:06 EST（CNBC）、20:11 EST（CNN）",
+   "whenEn": "Event: evening of Wed 2026-11-11, US time; exact time not reported · Published: 17:06 EST (CNBC), 20:11 EST (CNN)",
+   "title": "媒体：董事会开会讨论黄仁勋的去留",
+   "titleEn": "Media: the Board meets to discuss Huang's future",
+   "body": "CNBC 称其“确认”董事会正在开会决定是否更换 CEO；CNN 引述两名知情人士。两家都写明最先报道此事的是《华尔街日报》。这是关于会议的报道，不等于会议作出了决定。NVIDIA 未回应置评请求。",
+   "bodyEn": "CNBC said it had confirmed the Board was meeting to decide whether to replace the CEO; CNN cited two people familiar with the matter. Both credit The Wall Street Journal with reporting it first. A report that a meeting took place is not a decision. NVIDIA did not respond to requests for comment.",
+   "src": [
+    [
+     "CNBC（2026-11-11）",
+     "CNBC (2026-11-11)",
+     "https://www.cnbc.com/2026/11/11/nvidia-jensen-huang-affair-employee.html"
+    ],
+    [
+     "CNN，经 BNN Bloomberg 转载",
+     "CNN, via BNN Bloomberg",
+     "https://www.bnnbloomberg.ca/business/2026/11/12/nvidia-board-meets-to-decide-ceo-huangs-future-source-says/"
+    ]
+   ],
+   "d": "11.11"
+  },
+  {
+   "kind": "official",
+   "when": "发布页日期：2026-11-10（页面未标注时刻与时区）",
+   "whenEn": "Page date: 2026-11-10 (no time or time zone shown)",
+   "title": "官方：独立董事聘请外部律师开展独立调查",
+   "titleEn": "Official: independent directors retain outside counsel for the investigation",
+   "body": "NVIDIA 董事会独立成员表示，已聘请前纽约南区联邦代理检察官 Joon H. Kim 及其所在的 Wachtell, Lipton, Rosen & Katz 律所，进行周日宣布的独立调查。",
+   "bodyEn": "The independent members of the NVIDIA Board said they have retained Joon H. Kim, former acting U.S. Attorney for the Southern District of New York, and his firm Wachtell, Lipton, Rosen & Katz to conduct the independent investigation announced on Sunday.",
+   "src": [
+    [
+     "NVIDIA Newsroom",
+     "NVIDIA Newsroom",
+     "https://nvidianews.nvidia.com/news/statement-from-the-independent-members-of-the-nvidia-board"
+    ]
+   ],
+   "d": "11.10"
+  },
+  {
+   "kind": "media",
+   "when": "报道发布：2026-11-08 15:12 EST / 16:50 EST（CNBC）",
+   "whenEn": "Published: 2026-11-08 15:12 EST / 16:50 EST (CNBC)",
+   "title": "媒体：公司当时对 CNBC 表示黄仁勋将继续担任 CEO",
+   "titleEn": "Media: at the time, the company told CNBC Huang would continue as CEO",
+   "body": "这是 11 月 8 日的情况，已被 11 月 12 日的官方公告取代。据 CNBC，NVIDIA 当天向其表示，黄仁勋致力于不间断地继续领导公司。CNBC 同时报道了调查的背景，相关指控出自《纽约时报》与《金融时报》的报道，属于报道中的说法，调查尚无结论。",
+   "bodyEn": "This reflects November 8 and has been superseded by the November 12 announcement. According to CNBC, NVIDIA told it that day that Huang is committed to continuing to lead the company without interruption. CNBC also covered the background to the investigation; the underlying allegations come from reporting by The New York Times and the Financial Times and have not been established.",
+   "src": [
+    [
+     "CNBC：邮件与董事会声明",
+     "CNBC: email and Board statement",
+     "https://www.cnbc.com/2026/11/08/nvidia-jensen-huang-email-board-of-directors-statement.html"
+    ],
+    [
+     "CNBC：调查报道",
+     "CNBC: the investigation",
+     "https://www.cnbc.com/2026/11/08/nvidia-jensen-huang-investigation-china-spy.html"
+    ]
+   ],
+   "d": "11.08"
+  },
+  {
+   "kind": "official",
+   "when": "发布页日期：2026-11-08（周日；页面未标注时刻与时区）",
+   "whenEn": "Page date: Sun 2026-11-08 (no time or time zone shown)",
+   "title": "官方：董事会宣布启动独立调查",
+   "titleEn": "Official: the Board announces an independent investigation",
+   "body": "董事会表示，鉴于近期有关黄仁勋成为外国情报活动目标的报道，将启动独立调查，由独立董事委员会在外部独立律师协助下监督。声明称董事会目前没有理由认为国家安全或公司机密受到损害，黄仁勋支持并将配合调查，董事会对他及管理团队有信心。",
+   "bodyEn": "The Board said it is initiating an independent investigation in light of recent reporting that Jensen Huang has been the target of a foreign intelligence effort, overseen by a committee of independent directors with outside independent counsel. The statement says the Board has no reason to believe national security or NVIDIA secrets were compromised, that Huang supports and will cooperate with the review, and that the Board has confidence in him and his leadership team.",
+   "src": [
+    [
+     "NVIDIA Newsroom",
+     "NVIDIA Newsroom",
+     "https://nvidianews.nvidia.com/news/statement-from-nvidia-board-of-directors"
+    ]
+   ],
+   "d": "11.08"
+  },
+  {
+   "kind": "official",
+   "when": "发布页日期：2026-11-08（页面写明邮件于“当天早些时候”发出，未标注时区）",
+   "whenEn": "Page date: 2026-11-08 (the page says the email was sent “earlier today”; no time zone shown)",
+   "title": "官方：黄仁勋致全体员工的邮件",
+   "titleEn": "Official: Jensen Huang's email to employees",
+   "body": "NVIDIA 公开了黄仁勋发给员工的邮件。他在信中为个人行为向家人和同事道歉，表示承担全部责任，支持并将全力配合董事会的独立调查，并请外界给予其家人隐私。本站尊重这一请求，不展开私人细节。",
+   "bodyEn": "NVIDIA published the email Huang sent to employees. In it he apologizes to his family and colleagues for his personal conduct, takes full responsibility, says he supports and will fully cooperate with the Board's investigation, and asks for privacy for his family. This site respects that request and does not go into private details.",
+   "src": [
+    [
+     "NVIDIA Newsroom",
+     "NVIDIA Newsroom",
+     "https://nvidianews.nvidia.com/news/a-message-to-our-company"
+    ]
+   ],
+   "d": "11.08"
+  },
+  {
+   "kind": "media",
+   "when": "据 CNBC：《纽约时报》于 2026-11-06（周五）首次报道 · CNBC 报道发布：2026-11-08 13:06 EST",
+   "whenEn": "Per CNBC: first reported by The New York Times on Fri 2026-11-06 · CNBC published: 2026-11-08 13:06 EST",
+   "title": "媒体：事件的起点——关于外国情报活动的报道",
+   "titleEn": "Media: where it began — reports of a foreign intelligence effort",
+   "body": "CNBC 称，《纽约时报》于周五首先报道了一份涉及黄仁勋的政府备忘录。此处依据 CNBC 的转述；其中的指控属于报道内容，未经调查认定。",
+   "bodyEn": "CNBC said The New York Times first reported on Friday on a government memo involving Huang. This entry relies on CNBC's account; the allegations are reported claims and have not been established by any investigation.",
+   "src": [
+    [
+     "CNBC（2026-11-08）",
+     "CNBC (2026-11-08)",
+     "https://www.cnbc.com/2026/11/08/jensen-huang-nvidia-china-spy-congress.html"
+    ]
+   ],
+   "d": "11.06"
+  }
+ ],
+ "FUTURE": [
+  {
+   "kind": "official",
+   "when": "2026-11-17（周二）14:00 PT / 17:00 ET",
+   "whenEn": "Tue 2026-11-17, 2:00 p.m. PT / 5:00 p.m. ET",
+   "title": "NVIDIA 2027 财年第三季度财报电话会",
+   "titleEn": "NVIDIA Q3 fiscal 2027 earnings call",
+   "body": "官方 11 月 12 日的 CEO 交接公告确认仍按原计划进行：业绩约在 13:20 PT 公布，电话会 14:00 PT。",
+   "bodyEn": "NVIDIA’s November 12 CEO transition announcement confirms it goes ahead as scheduled: results at about 1:20 p.m. PT, call at 2 p.m. PT.",
+   "src": [
+    [
+     "NVIDIA Newsroom（2026-10-28）",
+     "NVIDIA Newsroom (2026-10-28)",
+     "https://nvidianews.nvidia.com/news/nvidia-sets-conference-call-for-third-quarter-financial-results-6928873"
+    ],
+    [
+     "NVIDIA Newsroom（2026-11-12）",
+     "NVIDIA Newsroom (2026-11-12)",
+     "https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition"
+    ]
+   ]
+  },
+  {
+   "kind": "media",
+   "when": "2026-11-18（据 CNBC；时区未说明）",
+   "whenEn": "2026-11-18 (per CNBC; time zone not stated)",
+   "title": "国会议员要求的闭门简报",
+   "titleEn": "Closed-door briefing requested by members of Congress",
+   "body": "据 CNBC，三位众议院委员会主席曾要求黄仁勋在这一天进行闭门简报。这项请求提出于他辞任之前，是否仍会举行、由谁出席均未确认。",
+   "bodyEn": "According to CNBC, three House committee chairs had asked Huang for a closed-door briefing on this date. The request predates his resignation; whether it will still happen and who would attend are unconfirmed.",
+   "src": [
+    [
+     "CNBC（2026-11-08）",
+     "CNBC (2026-11-08)",
+     "https://www.cnbc.com/2026/11/08/jensen-huang-nvidia-china-spy-congress.html"
+    ]
+   ]
+  }
+ ],
+ "CATS": [
+  [
+   "all",
+   "全部",
+   "All"
+  ],
+  [
+   "news",
+   "新闻动态",
+   "News"
+  ],
+  [
+   "video",
+   "采访与视频",
+   "Interviews & video"
+  ],
+  [
+   "speech",
+   "演讲与金句",
+   "Talks & quotes"
+  ],
+  [
+   "tech",
+   "技术与产品",
+   "Tech & products"
+  ],
+  [
+   "people",
+   "人物故事",
+   "People"
+  ],
+  [
+   "fan",
+   "粉丝创作",
+   "Fan work"
+  ]
+ ],
+ "FMT": {
+  "pr": [
+   "新闻稿",
+   "Press release"
+  ],
+  "rep": [
+   "报道",
+   "Report"
+  ],
+  "blog": [
+   "博客",
+   "Blog"
+  ],
+  "letter": [
+   "公开信",
+   "Letter"
+  ],
+  "page": [
+   "官方资料页",
+   "Official page"
+  ]
+ },
+ "ITEMS": [
+  {
+   "id": "nv-ceo-transition-1112",
+   "title": "NVIDIA Announces CEO Transition",
+   "summary": "官方公告：黄仁勋辞去总裁、CEO 与董事职务，即刻生效；Colette Kress 任临时 CEO 并继续担任 CFO；Harvey C. Jones 任首位董事长；董事会启动永久 CEO 遴选。",
+   "summaryEn": "The official announcement: Jensen Huang resigns as President, CEO and director, effective immediately; Colette Kress becomes Interim CEO and remains CFO; Harvey C. Jones becomes the first Chair of the Board; the Board begins a search for a permanent CEO.",
+   "sourceName": "NVIDIA Newsroom",
+   "sourceUrl": "https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition",
+   "publishedAt": "2026-11-12",
+   "checkedAt": "2026-11-12",
+   "type": "news",
+   "format": "pr",
+   "sourceType": "official",
+   "verificationStatus": "opened",
+   "featured": true
+  },
+  {
+   "id": "nv-board-1108",
+   "title": "Statement From NVIDIA Board of Directors",
+   "summary": "11 月 8 日，董事会宣布就相关报道启动独立调查，由独立董事委员会与外部律师负责。声明中对黄仁勋的支持表态是当时的立场。",
+   "summaryEn": "On November 8 the Board announced an independent investigation into recent reporting, led by a committee of independent directors with outside counsel. Its expression of confidence in Huang reflects the position at that time.",
+   "sourceName": "NVIDIA Newsroom",
+   "sourceUrl": "https://nvidianews.nvidia.com/news/statement-from-nvidia-board-of-directors",
+   "publishedAt": "2026-11-08",
+   "checkedAt": "2026-11-12",
+   "type": "news",
+   "format": "pr",
+   "sourceType": "official",
+   "verificationStatus": "opened",
+   "featured": true
+  },
+  {
+   "id": "nv-message-1108",
+   "title": "A Message to Our Company",
+   "summary": "黄仁勋致员工的邮件全文：道歉、承担责任、支持并配合独立调查，并请外界给家人隐私。",
+   "summaryEn": "The full text of Huang's email to employees: an apology, taking responsibility, support for the independent investigation, and a request for his family's privacy.",
+   "sourceName": "NVIDIA Newsroom",
+   "sourceUrl": "https://nvidianews.nvidia.com/news/a-message-to-our-company",
+   "publishedAt": "2026-11-08",
+   "checkedAt": "2026-11-12",
+   "type": "people",
+   "format": "letter",
+   "sourceType": "official",
+   "verificationStatus": "opened",
+   "featured": true
+  },
+  {
+   "id": "nv-indep-1110",
+   "title": "Statement From the Independent Members of the NVIDIA Board",
+   "summary": "独立董事聘请 Joon H. Kim 与 Wachtell, Lipton, Rosen & Katz 律所执行独立调查。",
+   "summaryEn": "The independent directors retain Joon H. Kim and Wachtell, Lipton, Rosen & Katz to conduct the independent investigation.",
+   "sourceName": "NVIDIA Newsroom",
+   "sourceUrl": "https://nvidianews.nvidia.com/news/statement-from-the-independent-members-of-the-nvidia-board",
+   "publishedAt": "2026-11-10",
+   "checkedAt": "2026-11-12",
+   "type": "news",
+   "format": "pr",
+   "sourceType": "official",
+   "verificationStatus": "opened",
+   "featured": true
+  },
+  {
+   "id": "nv-q3-call",
+   "title": "NVIDIA Sets Conference Call for Third-Quarter Financial Results",
+   "summary": "官方排定 11 月 17 日 14:00 PT 举行 2027 财年第三季度财报电话会，CFO 书面评述将提前发布。",
+   "summaryEn": "NVIDIA schedules its Q3 fiscal 2027 earnings call for November 17 at 2 p.m. PT, with written CFO commentary posted beforehand.",
+   "sourceName": "NVIDIA Newsroom",
+   "sourceUrl": "https://nvidianews.nvidia.com/news/nvidia-sets-conference-call-for-third-quarter-financial-results-6928873",
+   "publishedAt": "2026-10-28",
+   "checkedAt": "2026-11-12",
+   "type": "news",
+   "format": "pr",
+   "sourceType": "official",
+   "verificationStatus": "opened",
+   "featured": false
+  },
+  {
+   "id": "cnbc-email-1108",
+   "title": "Read Huang's email to his staff and statement from Nvidia's board of directors",
+   "summary": "CNBC 汇总了 11 月 8 日的员工邮件与董事会声明，并报道公司当时称黄仁勋将继续担任 CEO。此说法已被 11 月 12 日的官方公告取代。",
+   "summaryEn": "CNBC brings together the November 8 staff email and Board statement, and reports the company saying at the time that Huang would continue as CEO. That has been superseded by the November 12 announcement.",
+   "sourceName": "CNBC",
+   "sourceUrl": "https://www.cnbc.com/2026/11/08/nvidia-jensen-huang-email-board-of-directors-statement.html",
+   "publishedAt": "2026-11-08 16:50 EST",
+   "checkedAt": "2026-11-12",
+   "type": "news",
+   "format": "rep",
+   "sourceType": "media",
+   "verificationStatus": "opened",
+   "featured": true
+  },
+  {
+   "id": "cnbc-board-1111",
+   "title": "Nvidia board meeting to decide CEO Jensen Huang's fate stretches into evening",
+   "summary": "（官方公告之前的报道）CNBC 报道董事会周三晚间开会讨论 CEO 去留；文中未给出会议结果，NVIDIA 未回应置评。",
+   "summaryEn": "(Published before the official announcement.) CNBC reports the Board met Wednesday evening over the CEO's future. The article gives no outcome, and NVIDIA did not respond to requests for comment.",
+   "sourceName": "CNBC",
+   "sourceUrl": "https://www.cnbc.com/2026/11/11/nvidia-jensen-huang-affair-employee.html",
+   "publishedAt": "2026-11-11 17:06 EST",
+   "checkedAt": "2026-11-12",
+   "type": "news",
+   "format": "rep",
+   "sourceType": "media",
+   "verificationStatus": "opened",
+   "featured": false
+  },
+  {
+   "id": "cnn-bnn-1111",
+   "title": "Nvidia board meets to decide CEO Huang's future, source says",
+   "summary": "（官方公告之前的报道）CNN 引述两名知情人士报道董事会会议；发稿时没有结果，也没有点名任何继任者。",
+   "summaryEn": "(Published before the official announcement.) CNN reports the Board meeting, citing two people familiar with the matter. No outcome and no named successor at publication.",
+   "sourceName": "CNN（BNN Bloomberg 转载）",
+   "sourceNameEn": "CNN (via BNN Bloomberg)",
+   "sourceUrl": "https://www.bnnbloomberg.ca/business/2026/11/12/nvidia-board-meets-to-decide-ceo-huangs-future-source-says/",
+   "publishedAt": "2026-11-11 20:11 EST",
+   "checkedAt": "2026-11-12",
+   "type": "news",
+   "format": "rep",
+   "sourceType": "media",
+   "verificationStatus": "opened",
+   "featured": false
+  },
+  {
+   "id": "cnbc-analysts-1112",
+   "title": "'A dark day for Nvidia': Here's what analysts are saying as markets brace for news on Huang's fate",
+   "summary": "（官方公告之前的报道）多位分析师对公司前景的不同看法汇总。属于观点而非事实；本站不提供投资建议。",
+   "summaryEn": "(Published before the official announcement.) A roundup of differing analyst views on the company's outlook. These are opinions, not facts; this site offers no investment advice.",
+   "sourceName": "CNBC",
+   "sourceUrl": "https://www.cnbc.com/2026/11/12/jensen-huang-nvidia-affair-ceo.html",
+   "publishedAt": "2026-11-12 05:13 EST",
+   "checkedAt": "2026-11-12",
+   "type": "news",
+   "format": "rep",
+   "sourceType": "media",
+   "verificationStatus": "opened",
+   "featured": false
+  },
+  {
+   "id": "tnw-1112",
+   "title": "Jensen Huang's fate hangs on Nvidia's board after overnight meeting",
+   "summary": "（官方公告之前的报道）The Next Web 梳理会议前后的报道脉络，并称截至周三深夜没有决定被宣布。",
+   "summaryEn": "(Published before the official announcement.) The Next Web traces the reporting around the meeting and says no decision had been announced by the end of Wednesday night.",
+   "sourceName": "The Next Web",
+   "sourceUrl": "https://thenextweb.com/news/nvidia-board-meeting-jensen-huang-ouster-no-decision",
+   "publishedAt": "2026-11-12 08:03 GMT",
+   "checkedAt": "2026-11-12",
+   "type": "news",
+   "format": "rep",
+   "sourceType": "media",
+   "verificationStatus": "opened",
+   "featured": false
+  },
+  {
+   "id": "nv-mgmt",
+   "title": "NVIDIA Management Team",
+   "summary": "官方管理层名单。本站在辞任公告之前核查时，它列黄仁勋为 Founder, President and CEO；公告之后页面是否已更新，本站尚未复查。",
+   "summaryEn": "The official management roster. When we checked it before the resignation announcement it listed Jensen Huang as Founder, President and CEO; we have not rechecked whether it has been updated since.",
+   "sourceName": "NVIDIA Investor Relations",
+   "sourceUrl": "https://investor.nvidia.com/governance/management-team/default.aspx",
+   "publishedAt": "",
+   "checkedAt": "2026-11-12",
+   "type": "people",
+   "format": "page",
+   "sourceType": "official",
+   "verificationStatus": "opened",
+   "featured": false
+  },
+  {
+   "id": "nv-oracle-rubin",
+   "title": "NVIDIA and Oracle Expand NVIDIA Vera Rubin to Multi-Gigawatt Scale and Bring NVIDIA Vera CPU to Oracle Cloud Infrastructure",
+   "summary": "NVIDIA 与 Oracle 扩大 Vera Rubin 平台合作的官方公告。入口为官方新闻归档页。",
+   "summaryEn": "NVIDIA's announcement of an expanded Vera Rubin collaboration with Oracle. The link opens the official news archive.",
+   "sourceName": "NVIDIA Newsroom（归档列表）",
+   "sourceNameEn": "NVIDIA Newsroom (archive listing)",
+   "sourceUrl": "https://nvidianews.nvidia.com/news",
+   "publishedAt": "2026-10-27",
+   "checkedAt": "2026-11-12",
+   "type": "tech",
+   "format": "pr",
+   "sourceType": "official",
+   "verificationStatus": "listing",
+   "featured": false
+  },
+  {
+   "id": "nv-openshell",
+   "title": "NVIDIA Expands Open Source Commitment With OpenShell Donation and New AI Infrastructure",
+   "summary": "NVIDIA 关于开源投入的官方博客。入口为官方新闻归档页。",
+   "summaryEn": "NVIDIA's blog post on its open-source commitments. The link opens the official news archive.",
+   "sourceName": "NVIDIA Newsroom（归档列表）",
+   "sourceNameEn": "NVIDIA Newsroom (archive listing)",
+   "sourceUrl": "https://nvidianews.nvidia.com/news",
+   "publishedAt": "2026-11-10",
+   "checkedAt": "2026-11-12",
+   "type": "tech",
+   "format": "blog",
+   "sourceType": "official",
+   "verificationStatus": "listing",
+   "featured": false
+  }
+ ],
+ "STG": [
+  {
+   "state": "done",
+   "zh": [
+    "信件定稿",
+    "主办方公开信 v1.0，中英文"
+   ],
+   "en": [
+    "Letter finalized",
+    "Organizer letter v1.0, bilingual"
+   ]
+  },
+  {
+   "state": "done",
+   "zh": [
+    "已发送",
+    "2026-11-13 12:48 北京时间，发往 ir@nvidia.com"
+   ],
+   "en": [
+    "Sent",
+    "Nov 13, 2026, 12:48 Beijing time, to ir@nvidia.com"
+   ]
+  },
+  {
+   "state": "cur",
+   "zh": [
+    "等待收件确认",
+    "尚无收件确认或回复"
+   ],
+   "en": [
+    "Awaiting acknowledgment",
+    "No acknowledgment or reply yet"
+   ]
+  },
+  {
+   "state": "todo",
+   "zh": [
+    "收到回复",
+    "对方作出回应"
+   ],
+   "en": [
+    "Reply received",
+    "Recipient responds"
+   ]
+  }
+ ],
+ "LET": {
+  "zh": "致 NVIDIA 董事会与 NVIDIA 公司的公开信\n主办方递交版 v1.0 — 2026 年 11 月 13 日\n\n致 NVIDIA 董事会：\n\n我们以 Save Jensen（https://savejensen.ai）主办方的身份致信。这个社区旨在表达对黄仁勋贡献的感谢，以及对他未来重返领导岗位的支持。本信代表主办方的立场。我们不代表 NVIDIA 员工或股东，本次也不是提交正式联署或经核验的署名名单。\n\n我们知悉 NVIDIA 于 2026 年 11 月 12 日发布公告：黄仁勋辞去总裁、首席执行官及董事职务，董事会正在遴选永久 CEO。\n\n一、我们支持董事会已宣布的独立调查，并希望调查完整、公正、不受干扰地完成。事实应由证据决定；我们的支持不预判调查结论，也不为任何不当行为开脱。\n\n二、我们想表达感谢。三十多年来，黄仁勋的技术领导力，以及他带领的 NVIDIA 团队在图形、加速计算和人工智能领域所做的贡献，值得被看见。\n\n三、我们支持黄仁勋重返领导岗位，继续为 AI 作出贡献。在充分考虑调查结果和公司治理责任的前提下，我们恳请董事会在遴选永久 CEO 的过程中，认真考虑他回归的可能，以及他的技术领导力所能带来的价值。\n\n四、我们尊重董事会作出决定的职责。这是一项请求认真考虑的倡议，并不表示回归已有安排，也不能保证任何结果。\n\n本次只递交主办方公开信，不包含任何个人支持者的姓名、留言、邮箱或头像。网站应援能量和分享点击不是联署签名，也不是独立人数，我们不以它们代替署名。\n\n感谢您考虑这份支持意见。\n\n此致\nSave Jensen 主办方\nhttps://savejensen.ai/\n\nCEO 交接公告原始来源：\nhttps://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition",
+  "en": "An Open Letter to the NVIDIA Board of Directors and to NVIDIA\nOrganizer submission v1.0 — November 13, 2026\n\nTo the NVIDIA Board of Directors,\n\nWe write as the organizers of Save Jensen (https://savejensen.ai), a community created to express appreciation for Jensen Huang's contributions and support for his possible return to a leadership role. This letter represents the organizers' position. We do not speak for NVIDIA employees or shareholders, and we are not submitting a petition or a list of verified signatories.\n\nWe acknowledge NVIDIA's November 12, 2026 announcement that Jensen Huang resigned as President, Chief Executive Officer and a director, and that the Board is searching for a permanent CEO.\n\n1. We support the independent investigation announced by the Board and hope it is completed fully, fairly and without interference. Evidence should determine the facts; our support does not prejudge the investigation or excuse any misconduct.\n\n2. We want to express gratitude for Jensen Huang's technical leadership and for the work of the NVIDIA teams he has led over more than three decades. Their contributions to graphics, accelerated computing and AI deserve to be recognized.\n\n3. We support Jensen Huang's return to a leadership role so that he can continue contributing to AI. Subject to the findings of the investigation and the Board's governance responsibilities, we respectfully ask the Board to give serious consideration to the possibility of his return and to the value of his technical leadership during its search for a permanent CEO.\n\n4. We respect the Board's responsibility to make that decision. This is a request for consideration, not a claim that a return has been agreed or can be guaranteed.\n\nWe are sending this organizer letter without individual supporters' names, messages, email addresses or avatars. Website support energy and share clicks are not signatures or counts of unique people, and we do not present them as such.\n\nThank you for considering this expression of support.\n\nRespectfully,\nSave Jensen organizers\nhttps://savejensen.ai/en/\n\nSource for the CEO transition announcement:\nhttps://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition"
+ }
+}
